@@ -57,21 +57,21 @@ const Contact = () => {
     {
       icon: Phone,
       title: 'Teléfono',
-      details: ['+54 299 412-3456', 'Whatsapp disponible'],
-      action: () => window.open('https://wa.me/5492994123456', '_blank'),
+      details: ['+54 299 418-1952', 'Whatsapp disponible'],
+      action: () => window.open('https://wa.me/5492994181952', '_blank'),
       actionLabel: 'Enviar WhatsApp'
     },
     {
       icon: Mail,
       title: 'Email',
-      details: ['info@mueblesartesanales.com', 'Respuesta en 24hs'],
-      action: () => window.open('mailto:info@mueblesartesanales.com'),
+      details: ['christianomarcontacto@gmail.com', 'Respuesta en 24hs'],
+      action: () => window.open('mailto:christianomarcontacto@gmail.com'),
       actionLabel: 'Enviar Email'
     },
     {
       icon: MapPin,
       title: 'Dirección',
-      details: ['Neuquén Capital', 'Argentina'],
+      details: ['Neuquén Capital, Barrio Utedyc', 'Argentina'],
       action: null,
       actionLabel: null
     },
@@ -93,19 +93,19 @@ const Contact = () => {
     {
       icon: Facebook,
       name: 'Facebook',
-      url: 'https://facebook.com',
+      url: 'https://www.facebook.com/MueblesBeltran',
       color: 'text-blue-600 hover:text-blue-700'
     },
     {
       icon: Instagram,
       name: 'Instagram',
-      url: 'https://instagram.com',
+      url: 'https://www.instagram.com/muebles_beltran/',
       color: 'text-pink-600 hover:text-pink-700'
     },
     {
       icon: MessageCircle,
       name: 'WhatsApp',
-      url: 'https://wa.me/5492994123456',
+      url: 'https://wa.me/5492994181952',
       color: 'text-green-600 hover:text-green-700'
     }
   ];
@@ -259,7 +259,7 @@ const Contact = () => {
                     id="phone"
                     {...register('phone')}
                     className="form-input"
-                    placeholder="+54 299 123-4567"
+                    placeholder="+54 299 418-1952"
                   />
                 </div>
 
@@ -568,14 +568,14 @@ const Contact = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="tel:+5492994123456"
+                href="tel:+5492994181952"
                 className="bg-white text-amber-800 hover:bg-amber-50 font-medium py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
               >
                 <Phone size={20} />
-                <span>+54 299 412-3456</span>
+                <span>+54 299 418-1952</span>
               </a>
               <a
-                href="https://wa.me/5492994123456?text=Hola! Me interesa solicitar un presupuesto para un mueble"
+                href="https://wa.me/5492994181952?text=Hola! Me interesa solicitar un presupuesto para un mueble"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-500 hover:bg-green-600 text-white font-medium py-3 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"

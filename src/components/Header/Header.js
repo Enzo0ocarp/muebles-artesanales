@@ -103,7 +103,7 @@ const Header = () => {
             </motion.div>
             <div className="font-heading">
               <h1 className="text-xl font-bold text-amber-900">
-                Muebles Artesanales
+                Muebles Beltran
               </h1>
               <p className="text-sm text-amber-700 -mt-1">
                 Carpintería de calidad

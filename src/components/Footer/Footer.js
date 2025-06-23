@@ -49,19 +49,19 @@ const Footer = () => {
     {
       icon: Phone,
       label: 'Teléfono',
-      value: '+54 299 412-3456',
-      href: 'tel:+5492994123456'
+      value: '+54 299 418-1952',
+      href: 'tel:+5492994181952'
     },
     {
       icon: Mail,
       label: 'Email',
-      value: 'info@mueblesartesanales.com',
-      href: 'mailto:info@mueblesartesanales.com'
+      value: 'christianomarcontacto@gmail.com',
+      href: 'mailto:christianomarcontacto@gmail.com'
     },
     {
       icon: MapPin,
       label: 'Dirección',
-      value: 'Neuquén, Argentina',
+      value: 'Neuquén Capital, Neuquén, Argentina',
       href: '#'
     },
     {
@@ -81,13 +81,13 @@ const Footer = () => {
     {
       icon: Facebook,
       label: 'Facebook',
-      href: 'https://facebook.com',
+      href: 'https://www.facebook.com/MueblesBeltran',
       color: 'hover:text-blue-600'
     },
     {
       icon: Instagram,
       label: 'Instagram',
-      href: 'https://instagram.com',
+      href: 'https://www.instagram.com/muebles_beltran/',
       color: 'hover:text-pink-600'
     }
   ];
@@ -109,7 +109,7 @@ const Footer = () => {
                 <Hammer className="h-6 w-6 text-white" />
               </div>
               <div className="font-heading">
-                <h3 className="text-xl font-bold">Muebles Artesanales</h3>
+                <h3 className="text-xl font-bold">Muebles Beltran</h3>
                 <p className="text-amber-200 text-sm">Carpintería de calidad</p>
               </div>
             </div>
@@ -231,7 +231,7 @@ const Footer = () => {
           viewport={{ once: true }}
         >
           <p className="text-amber-200 text-sm">
-            © {currentYear} Muebles Artesanales. Todos los derechos reservados.
+            © {currentYear} Muebles Beltran. Todos los derechos reservados.
           </p>
           <p className="text-amber-300 text-xs mt-1">
             Desarrollado con ❤️ en Neuquén, Argentina
