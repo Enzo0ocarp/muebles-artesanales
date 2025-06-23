@@ -75,7 +75,7 @@ const Admin = () => {
    */
   const { 
     register: registerProject, 
-    handleSubmit: handleProjectSubmit, 
+    handleSubmit: handleProjectFormSubmit, 
     reset: resetProject, 
     setValue,
     formState: { errors: projectErrors } 
@@ -225,7 +225,7 @@ const Admin = () => {
    * @async
    * @function
    */
-  const handleProjectSubmit = async (data) => {
+  const onProjectSubmit = async (data) => {
     try {
       setLoading(true);
       
@@ -650,7 +650,7 @@ const Admin = () => {
                 </button>
               </div>
 
-              <form onSubmit={handleProjectSubmit(handleProjectSubmit)} className="p-6 space-y-4">
+              <form onSubmit={handleProjectFormSubmit(onProjectSubmit)} className="p-6 space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Título del Proyecto *
@@ -681,6 +681,21 @@ const Admin = () => {
                   </select>
                   {projectErrors.category && (
                     <p className="text-red-500 text-sm mt-1">{projectErrors.category.message}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Descripción *
+                  </label>
+                  <textarea
+                    {...registerProject('description', { required: 'Descripción requerida' })}
+                    className="form-textarea"
+                    rows={3}
+                    placeholder="Descripción detallada del proyecto"
+                  />
+                  {projectErrors.description && (
+                    <p className="text-red-500 text-sm mt-1">{projectErrors.description.message}</p>
                   )}
                 </div>
 
