@@ -1,38 +1,116 @@
-.App {
-  text-align: center;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fuentes personalizadas */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+/* Variables CSS */
+:root {
+  --primary-wood: #8B4513;
+  --secondary-wood: #A0522D;
+  --light-wood: #D2B48C;
+  --dark-wood: #654321;
+  --warm-white: #FFF8F0;
+  --cream: #F5F5DC;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Estilos base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: var(--warm-white);
+}
+
+/* Tipografía */
+.font-heading {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Botones personalizados */
+.btn-primary {
+  @apply bg-amber-700 hover:bg-amber-800 text-white font-medium py-3 px-6 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl;
+}
+
+.btn-secondary {
+  @apply bg-amber-100 hover:bg-amber-200 text-amber-800 font-medium py-3 px-6 rounded-lg transition-all duration-300 border border-amber-300;
+}
+
+/* Cards personalizadas */
+.card {
+  @apply bg-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden;
+}
+
+.card-hover {
+  @apply transform hover:scale-105 transition-transform duration-300;
+}
+
+/* Efectos de imagen */
+.image-overlay {
+  @apply absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-30 transition-all duration-300;
+}
+
+/* Animaciones personalizadas */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-wood);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--dark-wood);
+}
+
+/* Responsive utilities */
+@media (max-width: 640px) {
+  .container-mobile-padding {
+    @apply px-4;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Estilos para formularios */
+.form-input {
+  @apply w-full px-4 py-3 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all duration-300 bg-white;
 }
 
-.App-link {
-  color: #61dafb;
+.form-textarea {
+  @apply w-full px-4 py-3 border border-amber-200 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent transition-all duration-300 bg-white resize-vertical min-h-[120px];
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Efectos de loading */
+.loading-spinner {
+  @apply animate-spin rounded-full h-8 w-8 border-b-2 border-amber-700;
+}
+
+/* Gradientes personalizados */
+.gradient-wood {
+  background: linear-gradient(135deg, var(--light-wood) 0%, var(--primary-wood) 100%);
+}
+
+.gradient-overlay {
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
 }
