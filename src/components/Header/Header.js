@@ -24,6 +24,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [logoError, setLogoError] = useState(false);
   const location = useLocation();
 
   /**
@@ -88,6 +89,14 @@ const Header = () => {
     return location.pathname === '/';
   };
 
+  /**
+   * Maneja el error de carga del logo
+   * @function
+   */
+  const handleLogoError = () => {
+    setLogoError(true);
+  };
+
   return (
     <>
       {/* Backdrop para mejorar legibilidad en TODAS las páginas */}
@@ -110,17 +119,20 @@ const Header = () => {
             {/* Logo */}
             <Link to="/" className="flex items-center space-x-3 group relative z-10">
               <motion.div
-                className={`p-2.5 rounded-xl transition-all duration-300 ${
-                  isScrolled 
-                    ? 'bg-amber-700 group-hover:bg-amber-800 shadow-lg' 
-                    : 'bg-amber-700/90 group-hover:bg-amber-800 shadow-xl border border-amber-600'
-                }`}
+
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <Hammer                 className={`h-6 w-6 transition-colors duration-300 ${
-                  isScrolled ? 'text-white' : 'text-white'
-                }`} />
+                {!logoError ? (
+                  <img 
+                    src="/images/logo.jpg" 
+                    alt="Muebles Beltran Logo" 
+                    className="h-10 w-10 object-contain"
+                    onError={handleLogoError}
+                  />
+                ) : (
+                  <Hammer className="h25 w-25 text-white" />
+                )}
               </motion.div>
               <div className="font-heading">
                 <h1 className={`text-xl font-bold transition-all duration-300 ${
@@ -128,7 +140,7 @@ const Header = () => {
                     ? 'text-amber-900' 
                     : 'text-white font-semibold'
                 }`}>
-                  Muebles Beltrán
+                  Muebles Beltran
                 </h1>
                 <p className={`text-sm -mt-1 transition-all duration-300 ${
                   isScrolled 
