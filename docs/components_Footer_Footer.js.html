@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Footer/Footer.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Footer/Footer.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Componente Footer con información de contacto y redes
+ * @author Muebles Artesanales
+ * @version 1.0.0
+ */
+
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { Hammer, Phone, Mail, MapPin, Clock, Facebook, Instagram } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+/**
+ * Componente Footer que contiene información de contacto y enlaces
+ * Incluye datos de la empresa, horarios y redes sociales
+ * 
+ * @component
+ * @returns {JSX.Element} Footer de la aplicación
+ * 
+ * @example
+ * return (
+ *   &lt;Footer />
+ * )
+ */
+const Footer = () => {
+  /**
+   * Año actual para el copyright
+   * @type {number}
+   */
+  const currentYear = new Date().getFullYear();
+
+  /**
+   * Enlaces rápidos del footer
+   * @type {Array&lt;Object>}
+   * @constant
+   */
+  const quickLinks = [
+    { path: '/', label: 'Inicio' },
+    { path: '/galeria', label: 'Galería' },
+    { path: '/nosotros', label: 'Nosotros' },
+    { path: '/contacto', label: 'Contacto' }
+  ];
+
+  /**
+   * Información de contacto
+   * @type {Array&lt;Object>}
+   * @constant
+   */
+  const contactInfo = [
+    {
+      icon: Phone,
+      label: 'Teléfono',
+      value: '+54 299 418-1952',
+      href: 'tel:+5492994181952'
+    },
+    {
+      icon: Mail,
+      label: 'Email',
+      value: 'christianomarcontacto@gmail.com',
+      href: 'mailto:christianomarcontacto@gmail.com'
+    },
+    {
+      icon: MapPin,
+      label: 'Dirección',
+      value: 'Neuquén Capital, Neuquén, Argentina',
+      href: '#'
+    },
+    {
+      icon: Clock,
+      label: 'Horarios',
+      value: 'Lun - Vie: 8:00 - 18:00',
+      href: '#'
+    }
+  ];
+
+  /**
+   * Enlaces de redes sociales
+   * @type {Array&lt;Object>}
+   * @constant
+   */
+  const socialLinks = [
+    {
+      icon: Facebook,
+      label: 'Facebook',
+      href: 'https://www.facebook.com/MueblesBeltran',
+      color: 'hover:text-blue-600'
+    },
+    {
+      icon: Instagram,
+      label: 'Instagram',
+      href: 'https://www.instagram.com/muebles_beltran/',
+      color: 'hover:text-pink-600'
+    }
+  ];
+
+  return (
+    &lt;footer className="bg-amber-900 text-white">
+      &lt;div className="container mx-auto px-4 py-12">
+        &lt;div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Logo y descripción */}
+          &lt;motion.div
+            className="lg:col-span-1"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            viewport={{ once: true }}
+          >
+            &lt;div className="flex items-center space-x-2 mb-4">
+              &lt;div className="bg-amber-700 p-2 rounded-lg">
+                &lt;Hammer className="h-6 w-6 text-white" />
+              &lt;/div>
+              &lt;div className="font-heading">
+                &lt;h3 className="text-xl font-bold">Muebles Beltran&lt;/h3>
+                &lt;p className="text-amber-200 text-sm">Carpintería de calidad&lt;/p>
+              &lt;/div>
+            &lt;/div>
+            &lt;p className="text-amber-200 text-sm leading-relaxed">
+              Creamos muebles únicos y personalizados con la mejor calidad 
+              y atención al detalle. Cada pieza es una obra de arte funcional.
+            &lt;/p>
+          &lt;/motion.div>
+
+          {/* Enlaces rápidos */}
+          &lt;motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            viewport={{ once: true }}
+          >
+            &lt;h4 className="text-lg font-semibold mb-4 font-heading">
+              Enlaces Rápidos
+            &lt;/h4>
+            &lt;ul className="space-y-2">
+              {quickLinks.map((link) => (
+                &lt;li key={link.path}>
+                  &lt;Link
+                    to={link.path}
+                    className="text-amber-200 hover:text-white transition-colors duration-300 text-sm"
+                  >
+                    {link.label}
+                  &lt;/Link>
+                &lt;/li>
+              ))}
+            &lt;/ul>
+          &lt;/motion.div>
+
+          {/* Información de contacto */}
+          &lt;motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            &lt;h4 className="text-lg font-semibold mb-4 font-heading">
+              Contacto
+            &lt;/h4>
+            &lt;ul className="space-y-3">
+              {contactInfo.map((item, index) => (
+                &lt;li key={index} className="flex items-start space-x-2">
+                  &lt;item.icon size={16} className="text-amber-300 mt-1 flex-shrink-0" />
+                  &lt;div>
+                    {item.href !== '#' ? (
+                      &lt;a
+                        href={item.href}
+                        className="text-amber-200 hover:text-white transition-colors duration-300 text-sm"
+                      >
+                        {item.value}
+                      &lt;/a>
+                    ) : (
+                      &lt;span className="text-amber-200 text-sm">
+                        {item.value}
+                      &lt;/span>
+                    )}
+                  &lt;/div>
+                &lt;/li>
+              ))}
+            &lt;/ul>
+          &lt;/motion.div>
+
+          {/* Redes sociales */}
+          &lt;motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            &lt;h4 className="text-lg font-semibold mb-4 font-heading">
+              Síguenos
+            &lt;/h4>
+            &lt;div className="flex space-x-4">
+              {socialLinks.map((social, index) => (
+                &lt;motion.a
+                  key={index}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`text-amber-200 ${social.color} transition-colors duration-300`}
+                  whileHover={{ scale: 1.2 }}
+                  whileTap={{ scale: 0.9 }}
+                  aria-label={social.label}
+                >
+                  &lt;social.icon size={24} />
+                &lt;/motion.a>
+              ))}
+            &lt;/div>
+            
+            &lt;div className="mt-6">
+              &lt;h5 className="text-sm font-medium mb-2">Newsletter&lt;/h5>
+              &lt;p className="text-amber-200 text-xs mb-3">
+                Recibí noticias sobre nuevos productos
+              &lt;/p>
+              &lt;div className="flex">
+                &lt;input
+                  type="email"
+                  placeholder="Tu email"
+                  className="bg-amber-800 text-white placeholder-amber-300 px-3 py-2 rounded-l-lg text-sm flex-1 focus:outline-none focus:bg-amber-700"
+                />
+                &lt;button className="bg-amber-700 hover:bg-amber-600 px-4 py-2 rounded-r-lg transition-colors duration-300 text-sm">
+                  OK
+                &lt;/button>
+              &lt;/div>
+            &lt;/div>
+          &lt;/motion.div>
+        &lt;/div>
+
+        {/* Línea divisoria y copyright */}
+        &lt;motion.div
+          className="border-t border-amber-800 mt-8 pt-8 text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          viewport={{ once: true }}
+        >
+          &lt;p className="text-amber-200 text-sm">
+            © {currentYear} Muebles Beltran. Todos los derechos reservados.
+          &lt;/p>
+          &lt;p className="text-amber-300 text-xs mt-1">
+            Desarrollado con ❤️ en Neuquén, Argentina
+          &lt;/p>
+        &lt;/motion.div>
+      &lt;/div>
+    &lt;/footer>
+  );
+};
+
+export default Footer;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Contact">Contact</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Gallery">Gallery</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#WhatsAppButton">WhatsAppButton</a></li><li><a href="global.html#analytics">analytics</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#appConfig">appConfig</a></li><li><a href="global.html#auth">auth</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#firebaseConfig">firebaseConfig</a></li><li><a href="global.html#firebaseInfo">firebaseInfo</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#storage">storage</a></li><li><a href="global.html#validateConfig">validateConfig</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jun 24 2025 14:44:10 GMT-0300 (hora estándar de Argentina)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

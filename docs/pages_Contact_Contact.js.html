@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/Contact/Contact.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/Contact/Contact.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * @fileoverview Página de contacto con formulario funcional
  * @author Muebles Artesanales
  * @version 1.0.0
@@ -42,7 +70,7 @@ const Contact = () => {
 
   /**
    * Opciones de tipo de proyecto
-   * @type {Array<Object>}
+   * @type {Array&lt;Object>}
    * @constant
    */
   const projectTypes = [
@@ -56,7 +84,7 @@ const Contact = () => {
 
   /**
    * Opciones de presupuesto
-   * @type {Array<Object>}
+   * @type {Array&lt;Object>}
    * @constant
    */
   const budgetRanges = [
@@ -118,7 +146,7 @@ const Contact = () => {
 
   /**
    * Información de contacto
-   * @type {Array<Object>}
+   * @type {Array&lt;Object>}
    * @constant
    */
   const contactInfo = [
@@ -149,70 +177,70 @@ const Contact = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 pt-20">
-      <div className="container mx-auto px-4 py-16">
+    &lt;div className="min-h-screen bg-gradient-to-br from-amber-50 to-orange-50 pt-20">
+      &lt;div className="container mx-auto px-4 py-16">
         {/* Header */}
-        <motion.div
+        &lt;motion.div
           className="text-center mb-16"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 font-heading mb-6">
+          &lt;h1 className="text-4xl md:text-5xl font-bold text-gray-800 font-heading mb-6">
             Contactanos
-          </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          &lt;/h1>
+          &lt;p className="text-xl text-gray-600 max-w-3xl mx-auto">
             ¿Tenés un proyecto en mente? Contanos sobre tu idea y te ayudamos a hacerla realidad 
             con nuestros muebles artesanales de calidad premium.
-          </p>
-        </motion.div>
+          &lt;/p>
+        &lt;/motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        &lt;div className="grid lg:grid-cols-2 gap-12">
           {/* Formulario de contacto */}
-          <motion.div
+          &lt;motion.div
             className="bg-white rounded-2xl shadow-xl p-8"
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <h2 className="text-2xl font-bold text-gray-800 font-heading mb-6">
+            &lt;h2 className="text-2xl font-bold text-gray-800 font-heading mb-6">
               Envianos tu consulta
-            </h2>
+            &lt;/h2>
 
             {/* Mensaje de estado */}
-            {submitStatus === 'success' && (
-              <motion.div
+            {submitStatus === 'success' &amp;&amp; (
+              &lt;motion.div
                 className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center space-x-3"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <CheckCircle className="text-green-600" size={20} />
-                <span className="text-green-700">
+                &lt;CheckCircle className="text-green-600" size={20} />
+                &lt;span className="text-green-700">
                   ¡Gracias! Tu consulta fue enviada correctamente. Te contactaremos pronto.
-                </span>
-              </motion.div>
+                &lt;/span>
+              &lt;/motion.div>
             )}
 
-            {submitStatus === 'error' && (
-              <motion.div
+            {submitStatus === 'error' &amp;&amp; (
+              &lt;motion.div
                 className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center space-x-3"
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
               >
-                <AlertCircle className="text-red-600" size={20} />
-                <span className="text-red-700">
+                &lt;AlertCircle className="text-red-600" size={20} />
+                &lt;span className="text-red-700">
                   Hubo un error al enviar tu consulta. Por favor, intentá nuevamente.
-                </span>
-              </motion.div>
+                &lt;/span>
+              &lt;/motion.div>
             )}
 
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            &lt;form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* Nombre */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              &lt;div>
+                &lt;label className="block text-sm font-medium text-gray-700 mb-2">
                   Nombre completo *
-                </label>
-                <input
+                &lt;/label>
+                &lt;input
                   type="text"
                   {...register('name', { 
                     required: 'El nombre es requerido',
@@ -221,17 +249,17 @@ const Contact = () => {
                   className="form-input"
                   placeholder="Tu nombre completo"
                 />
-                {errors.name && (
-                  <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>
+                {errors.name &amp;&amp; (
+                  &lt;p className="text-red-500 text-sm mt-1">{errors.name.message}&lt;/p>
                 )}
-              </div>
+              &lt;/div>
 
               {/* Email */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              &lt;div>
+                &lt;label className="block text-sm font-medium text-gray-700 mb-2">
                   Email *
-                </label>
-                <input
+                &lt;/label>
+                &lt;input
                   type="email"
                   {...register('email', { 
                     required: 'El email es requerido',
@@ -243,69 +271,69 @@ const Contact = () => {
                   className="form-input"
                   placeholder="tu@email.com"
                 />
-                {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email.message}</p>
+                {errors.email &amp;&amp; (
+                  &lt;p className="text-red-500 text-sm mt-1">{errors.email.message}&lt;/p>
                 )}
-              </div>
+              &lt;/div>
 
               {/* Teléfono */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              &lt;div>
+                &lt;label className="block text-sm font-medium text-gray-700 mb-2">
                   Teléfono (opcional)
-                </label>
-                <input
+                &lt;/label>
+                &lt;input
                   type="tel"
                   {...register('phone')}
                   className="form-input"
                   placeholder="+54 299 123-4567"
                 />
-              </div>
+              &lt;/div>
 
               {/* Tipo de proyecto */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              &lt;div>
+                &lt;label className="block text-sm font-medium text-gray-700 mb-2">
                   Tipo de proyecto *
-                </label>
-                <select
+                &lt;/label>
+                &lt;select
                   {...register('projectType', { required: 'Selecciona un tipo de proyecto' })}
                   className="form-input"
                 >
-                  <option value="">Selecciona una opción</option>
+                  &lt;option value="">Selecciona una opción&lt;/option>
                   {projectTypes.map(type => (
-                    <option key={type.value} value={type.value}>
+                    &lt;option key={type.value} value={type.value}>
                       {type.label}
-                    </option>
+                    &lt;/option>
                   ))}
-                </select>
-                {errors.projectType && (
-                  <p className="text-red-500 text-sm mt-1">{errors.projectType.message}</p>
+                &lt;/select>
+                {errors.projectType &amp;&amp; (
+                  &lt;p className="text-red-500 text-sm mt-1">{errors.projectType.message}&lt;/p>
                 )}
-              </div>
+              &lt;/div>
 
               {/* Presupuesto */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              &lt;div>
+                &lt;label className="block text-sm font-medium text-gray-700 mb-2">
                   Presupuesto estimado (opcional)
-                </label>
-                <select
+                &lt;/label>
+                &lt;select
                   {...register('budget')}
                   className="form-input"
                 >
-                  <option value="">Selecciona un rango</option>
+                  &lt;option value="">Selecciona un rango&lt;/option>
                   {budgetRanges.map(range => (
-                    <option key={range.value} value={range.value}>
+                    &lt;option key={range.value} value={range.value}>
                       {range.label}
-                    </option>
+                    &lt;/option>
                   ))}
-                </select>
-              </div>
+                &lt;/select>
+              &lt;/div>
 
               {/* Mensaje */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
+              &lt;div>
+                &lt;label className="block text-sm font-medium text-gray-700 mb-2">
                   Mensaje *
-                </label>
-                <textarea
+                &lt;/label>
+                &lt;textarea
                   {...register('message', { 
                     required: 'El mensaje es requerido',
                     minLength: { value: 10, message: 'El mensaje debe tener al menos 10 caracteres' }
@@ -314,88 +342,110 @@ const Contact = () => {
                   rows={4}
                   placeholder="Contanos sobre tu proyecto, medidas, materiales preferidos, etc."
                 />
-                {errors.message && (
-                  <p className="text-red-500 text-sm mt-1">{errors.message.message}</p>
+                {errors.message &amp;&amp; (
+                  &lt;p className="text-red-500 text-sm mt-1">{errors.message.message}&lt;/p>
                 )}
-              </div>
+              &lt;/div>
 
               {/* Botón de envío */}
-              <button
+              &lt;button
                 type="submit"
                 disabled={isSubmitting}
                 className="w-full btn-primary flex items-center justify-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? (
-                  <>
-                    <div className="loading-spinner"></div>
-                    <span>Enviando...</span>
-                  </>
+                  &lt;>
+                    &lt;div className="loading-spinner">&lt;/div>
+                    &lt;span>Enviando...&lt;/span>
+                  &lt;/>
                 ) : (
-                  <>
-                    <Send size={20} />
-                    <span>Enviar Consulta</span>
-                  </>
+                  &lt;>
+                    &lt;Send size={20} />
+                    &lt;span>Enviar Consulta&lt;/span>
+                  &lt;/>
                 )}
-              </button>
-            </form>
-          </motion.div>
+              &lt;/button>
+            &lt;/form>
+          &lt;/motion.div>
 
           {/* Información de contacto */}
-          <motion.div
+          &lt;motion.div
             className="space-y-8"
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
           >
             {contactInfo.map((info, index) => (
-              <motion.div
+              &lt;motion.div
                 key={index}
                 className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow duration-300"
                 whileHover={{ y: -5 }}
                 transition={{ duration: 0.2 }}
               >
-                <div className="flex items-start space-x-4">
-                  <div className="bg-amber-100 p-3 rounded-full">
-                    <info.icon className="text-amber-700" size={24} />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="font-semibold text-gray-800 mb-2">{info.title}</h3>
-                    <div className="text-gray-600 whitespace-pre-line">
+                &lt;div className="flex items-start space-x-4">
+                  &lt;div className="bg-amber-100 p-3 rounded-full">
+                    &lt;info.icon className="text-amber-700" size={24} />
+                  &lt;/div>
+                  &lt;div className="flex-1">
+                    &lt;h3 className="font-semibold text-gray-800 mb-2">{info.title}&lt;/h3>
+                    &lt;div className="text-gray-600 whitespace-pre-line">
                       {info.action ? (
-                        <a
+                        &lt;a
                           href={info.action}
                           className="hover:text-amber-700 transition-colors duration-300"
                         >
                           {info.content}
-                        </a>
+                        &lt;/a>
                       ) : (
                         info.content
                       )}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
+                    &lt;/div>
+                  &lt;/div>
+                &lt;/div>
+              &lt;/motion.div>
             ))}
 
             {/* Mapa placeholder */}
-            <motion.div
+            &lt;motion.div
               className="bg-white rounded-xl shadow-lg p-6 h-64"
               whileHover={{ y: -5 }}
               transition={{ duration: 0.2 }}
             >
-              <div className="w-full h-full bg-gradient-to-br from-amber-100 to-orange-100 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <MapPin size={48} className="text-amber-700 mx-auto mb-2" />
-                  <p className="text-gray-600">Neuquén Capital</p>
-                  <p className="text-sm text-gray-500">Ubicación exacta por consulta</p>
-                </div>
-              </div>
-            </motion.div>
-          </motion.div>
-        </div>
-      </div>
-    </div>
+              &lt;div className="w-full h-full bg-gradient-to-br from-amber-100 to-orange-100 rounded-lg flex items-center justify-center">
+                &lt;div className="text-center">
+                  &lt;MapPin size={48} className="text-amber-700 mx-auto mb-2" />
+                  &lt;p className="text-gray-600">Neuquén Capital&lt;/p>
+                  &lt;p className="text-sm text-gray-500">Ubicación exacta por consulta&lt;/p>
+                &lt;/div>
+              &lt;/div>
+            &lt;/motion.div>
+          &lt;/motion.div>
+        &lt;/div>
+      &lt;/div>
+    &lt;/div>
   );
 };
 
-export default Contact;
+export default Contact;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Contact">Contact</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Gallery">Gallery</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#WhatsAppButton">WhatsAppButton</a></li><li><a href="global.html#analytics">analytics</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#appConfig">appConfig</a></li><li><a href="global.html#auth">auth</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#firebaseConfig">firebaseConfig</a></li><li><a href="global.html#firebaseInfo">firebaseInfo</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#storage">storage</a></li><li><a href="global.html#validateConfig">validateConfig</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jun 24 2025 14:44:10 GMT-0300 (hora estándar de Argentina)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

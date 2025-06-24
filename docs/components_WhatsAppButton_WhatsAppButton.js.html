@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/WhatsAppButton/WhatsAppButton.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/WhatsAppButton/WhatsAppButton.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Botón flotante de WhatsApp
+ * @author Muebles Artesanales
+ * @version 1.0.0
+ */
+
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MessageCircle, X } from 'lucide-react';
+import { appConfig } from '../../config/firebase';
+
+/**
+ * Componente de botón flotante de WhatsApp
+ * Permite a los usuarios contactar directamente por WhatsApp
+ * 
+ * @component
+ * @returns {JSX.Element} Botón flotante de WhatsApp
+ * 
+ * @example
+ * return (
+ *   &lt;WhatsAppButton />
+ * )
+ */
+const WhatsAppButton = () => {
+  const [showTooltip, setShowTooltip] = useState(false);
+
+  /**
+   * Abre WhatsApp con mensaje predefinido
+   * @function
+   */
+  const openWhatsApp = () => {
+    const message = encodeURIComponent(
+      '¡Hola! Me interesa conocer más sobre sus muebles artesanales. ¿Podrían brindarme información?'
+    );
+    const whatsappUrl = `https://wa.me/${appConfig.whatsappNumber}?text=${message}`;
+    
+    // Abrir en nueva ventana
+    window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  };
+
+  return (
+    &lt;>
+      {/* Botón flotante */}
+      &lt;motion.div
+        className="fixed bottom-6 right-6 z-50"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 1, duration: 0.5 }}
+      >
+        &lt;motion.button
+          onClick={openWhatsApp}
+          onMouseEnter={() => setShowTooltip(true)}
+          onMouseLeave={() => setShowTooltip(false)}
+          className="bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 group"
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.95 }}
+          aria-label="Contactar por WhatsApp"
+        >
+          &lt;MessageCircle size={24} className="group-hover:scale-110 transition-transform duration-300" />
+        &lt;/motion.button>
+
+        {/* Tooltip */}
+        &lt;AnimatePresence>
+          {showTooltip &amp;&amp; (
+            &lt;motion.div
+              initial={{ opacity: 0, x: 20, scale: 0.8 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              exit={{ opacity: 0, x: 20, scale: 0.8 }}
+              className="absolute right-full top-1/2 transform -translate-y-1/2 mr-3 whitespace-nowrap"
+            >
+              &lt;div className="bg-gray-800 text-white px-3 py-2 rounded-lg text-sm relative">
+                ¡Consultanos por WhatsApp!
+                &lt;div className="absolute top-1/2 right-0 transform translate-x-1 -translate-y-1/2 rotate-45 w-2 h-2 bg-gray-800">&lt;/div>
+              &lt;/div>
+            &lt;/motion.div>
+          )}
+        &lt;/AnimatePresence>
+      &lt;/motion.div>
+
+      {/* Animación de pulso cuando no hay hover */}
+      &lt;motion.div
+        className="fixed bottom-6 right-6 z-40 pointer-events-none"
+        animate={{
+          scale: [1, 1.2, 1],
+          opacity: [0.7, 0, 0.7],
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      >
+        &lt;div className="bg-green-400 p-4 rounded-full">
+          &lt;MessageCircle size={24} className="opacity-0" />
+        &lt;/div>
+      &lt;/motion.div>
+    &lt;/>
+  );
+};
+
+export default WhatsAppButton;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Contact">Contact</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Gallery">Gallery</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#WhatsAppButton">WhatsAppButton</a></li><li><a href="global.html#analytics">analytics</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#appConfig">appConfig</a></li><li><a href="global.html#auth">auth</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#firebaseConfig">firebaseConfig</a></li><li><a href="global.html#firebaseInfo">firebaseInfo</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#storage">storage</a></li><li><a href="global.html#validateConfig">validateConfig</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jun 24 2025 14:44:10 GMT-0300 (hora estándar de Argentina)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

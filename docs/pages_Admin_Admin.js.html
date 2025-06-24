@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/Admin/Admin.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/Admin/Admin.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Panel de administración para gestión de contenido
+ * @author Muebles Artesanales
+ * @version 1.0.0
+ */
+
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useForm } from 'react-hook-form';
+import { 
+  Upload, 
+  X, 
+  Save, 
+  Trash2, 
+  Edit, 
+  Eye, 
+  Plus,
+  Image as ImageIcon,
+  Mail,
+  Users,
+  Folder,
+  LogOut,
+  Key
+} from 'lucide-react';
+import { 
+  collection, 
+  addDoc, 
+  getDocs, 
+  deleteDoc, 
+  doc, 
+  updateDoc 
+} from 'firebase/firestore';
+import { 
+  ref, 
+  uploadBytes, 
+  getDownloadURL, 
+  deleteObject 
+} from 'firebase/storage';
+import { db, storage, auth } from '../../config/firebase';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+
+/**
+ * Componente del panel de administración
+ * Permite gestionar proyectos, imágenes y consultas de contacto
+ * 
+ * @component
+ * @returns {JSX.Element} Panel de administración
+ * 
+ * @example
+ * return (
+ *   &lt;Admin />
+ * )
+ */
+const Admin = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [activeTab, setActiveTab] = useState('projects');
+  const [projects, setProjects] = useState([]);
+  const [contacts, setContacts] = useState([]);
+  const [showProjectModal, setShowProjectModal] = useState(false);
+  const [editingProject, setEditingProject] = useState(null);
+  const [uploadingImages, setUploadingImages] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  /**
+   * Hook para formulario de login
+   */
+  const { 
+    register: registerLogin, 
+    handleSubmit: handleLoginSubmit, 
+    formState: { errors: loginErrors } 
+  } = useForm();
+
+  /**
+   * Hook para formulario de proyecto
+   */
+  const { 
+    register: registerProject, 
+    handleSubmit: handleProjectFormSubmit, 
+    reset: resetProject, 
+    setValue,
+    formState: { errors: projectErrors } 
+  } = useForm();
+
+  /**
+   * Categorías disponibles para proyectos
+   * @type {Array&lt;string>}
+   * @constant
+   */
+  const categories = ['cocina', 'dormitorio', 'living', 'oficina', 'baño'];
+
+  /**
+   * Pestañas del panel de administración
+   * @type {Array&lt;Object>}
+   * @constant
+   */
+  const tabs = [
+    { id: 'projects', label: 'Proyectos', icon: Folder },
+    { id: 'contacts', label: 'Consultas', icon: Mail },
+    { id: 'stats', label: 'Estadísticas', icon: Users }
+  ];
+
+  /**
+   * Verifica el estado de autenticación al cargar
+   */
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setIsAuthenticated(!!user);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  /**
+   * Carga datos cuando está autenticado
+   */
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadProjects();
+      loadContacts();
+    }
+  }, [isAuthenticated]);
+
+  /**
+   * Maneja el login del administrador
+   * @param {Object} data - Datos del formulario de login
+   * @async
+   * @function
+   */
+  const handleLogin = async (data) => {
+    try {
+      setLoading(true);
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+      setIsAuthenticated(true);
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      alert('Credenciales incorrectas');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /**
+   * Maneja el logout del administrador
+   * @async
+   * @function
+   */
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setIsAuthenticated(false);
+      setActiveTab('projects');
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
+    }
+  };
+
+  /**
+   * Carga la lista de proyectos desde Firebase
+   * @async
+   * @function
+   */
+  const loadProjects = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'projects'));
+      const projectsData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setProjects(projectsData);
+    } catch (error) {
+      console.error('Error al cargar proyectos:', error);
+    }
+  };
+
+  /**
+   * Carga la lista de consultas desde Firebase
+   * @async
+   * @function
+   */
+  const loadContacts = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(db, 'contacts'));
+      const contactsData = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setContacts(contactsData.sort((a, b) => b.timestamp?.toDate() - a.timestamp?.toDate()));
+    } catch (error) {
+      console.error('Error al cargar consultas:', error);
+    }
+  };
+
+  /**
+   * Sube múltiples imágenes a Firebase Storage
+   * @param {FileList} files - Archivos de imagen a subir
+   * @returns {Promise&lt;Array&lt;string>>} URLs de las imágenes subidas
+   * @async
+   * @function
+   */
+  const uploadImages = async (files) => {
+    const imageUrls = [];
+    setUploadingImages(true);
+
+    try {
+      for (let i = 0; i &lt; files.length; i++) {
+        const file = files[i];
+        const imageRef = ref(storage, `projects/${Date.now()}_${file.name}`);
+        const snapshot = await uploadBytes(imageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        imageUrls.push(downloadURL);
+      }
+    } catch (error) {
+      console.error('Error al subir imágenes:', error);
+      alert('Error al subir las imágenes');
+    } finally {
+      setUploadingImages(false);
+    }
+
+    return imageUrls;
+  };
+
+  /**
+   * Maneja el envío del formulario de proyecto
+   * @param {Object} data - Datos del formulario
+   * @async
+   * @function
+   */
+  const onProjectSubmit = async (data) => {
+    try {
+      setLoading(true);
+      
+      let imageUrls = [];
+      const files = data.images;
+      
+      if (files &amp;&amp; files.length > 0) {
+        imageUrls = await uploadImages(files);
+      }
+
+      const projectData = {
+        title: data.title,
+        category: data.category,
+        description: data.description,
+        client: data.client,
+        date: data.date,
+        materials: data.materials.split(',').map(m => m.trim()),
+        images: editingProject ? [...(editingProject.images || []), ...imageUrls] : imageUrls,
+        updatedAt: new Date()
+      };
+
+      if (editingProject) {
+        // Actualizar proyecto existente
+        await updateDoc(doc(db, 'projects', editingProject.id), projectData);
+      } else {
+        // Crear nuevo proyecto
+        projectData.createdAt = new Date();
+        await addDoc(collection(db, 'projects'), projectData);
+      }
+
+      await loadProjects();
+      setShowProjectModal(false);
+      setEditingProject(null);
+      resetProject();
+      
+    } catch (error) {
+      console.error('Error al guardar proyecto:', error);
+      alert('Error al guardar el proyecto');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  /**
+   * Elimina un proyecto
+   * @param {string} projectId - ID del proyecto a eliminar
+   * @async
+   * @function
+   */
+  const deleteProject = async (projectId) => {
+    if (!window.confirm('¿Estás seguro de eliminar este proyecto?')) return;
+
+    try {
+      await deleteDoc(doc(db, 'projects', projectId));
+      await loadProjects();
+    } catch (error) {
+      console.error('Error al eliminar proyecto:', error);
+      alert('Error al eliminar el proyecto');
+    }
+  };
+
+  /**
+   * Abre el modal para editar un proyecto
+   * @param {Object} project - Proyecto a editar
+   * @function
+   */
+  const editProject = (project) => {
+    setEditingProject(project);
+    setValue('title', project.title);
+    setValue('category', project.category);
+    setValue('description', project.description);
+    setValue('client', project.client);
+    setValue('date', project.date);
+    setValue('materials', project.materials.join(', '));
+    setShowProjectModal(true);
+  };
+
+  /**
+   * Elimina una consulta de contacto
+   * @param {string} contactId - ID de la consulta
+   * @async
+   * @function
+   */
+  const deleteContact = async (contactId) => {
+    if (!window.confirm('¿Eliminar esta consulta?')) return;
+
+    try {
+      await deleteDoc(doc(db, 'contacts', contactId));
+      await loadContacts();
+    } catch (error) {
+      console.error('Error al eliminar consulta:', error);
+    }
+  };
+
+  // Pantalla de login si no está autenticado
+  if (!isAuthenticated) {
+    return (
+      &lt;div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        &lt;motion.div
+          className="max-w-md w-full space-y-8"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          &lt;div>
+            &lt;div className="mx-auto h-12 w-12 flex items-center justify-center bg-amber-700 rounded-full">
+              &lt;Key className="h-6 w-6 text-white" />
+            &lt;/div>
+            &lt;h2 className="mt-6 text-center text-3xl font-bold text-gray-900">
+              Panel de Administración
+            &lt;/h2>
+            &lt;p className="mt-2 text-center text-sm text-gray-600">
+              Acceso restringido para administradores
+            &lt;/p>
+          &lt;/div>
+          
+          &lt;form onSubmit={handleLoginSubmit(handleLogin)} className="mt-8 space-y-6">
+            &lt;div>
+              &lt;label htmlFor="email" className="sr-only">Email&lt;/label>
+              &lt;input
+                type="email"
+                {...registerLogin('email', { required: 'Email requerido' })}
+                className="relative block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                placeholder="Email"
+              />
+              {loginErrors.email &amp;&amp; (
+                &lt;p className="text-red-500 text-sm mt-1">{loginErrors.email.message}&lt;/p>
+              )}
+            &lt;/div>
+            
+            &lt;div>
+              &lt;label htmlFor="password" className="sr-only">Contraseña&lt;/label>
+              &lt;input
+                type="password"
+                {...registerLogin('password', { required: 'Contraseña requerida' })}
+                className="relative block w-full px-3 py-2 border border-gray-300 rounded-md placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-amber-500 focus:border-amber-500"
+                placeholder="Contraseña"
+              />
+              {loginErrors.password &amp;&amp; (
+                &lt;p className="text-red-500 text-sm mt-1">{loginErrors.password.message}&lt;/p>
+              )}
+            &lt;/div>
+
+            &lt;button
+              type="submit"
+              disabled={loading}
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-700 hover:bg-amber-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50"
+            >
+              {loading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
+            &lt;/button>
+          &lt;/form>
+        &lt;/motion.div>
+      &lt;/div>
+    );
+  }
+
+  return (
+    &lt;div className="min-h-screen bg-gray-100 pt-20">
+      {/* Header del Admin */}
+      &lt;div className="bg-white shadow">
+        &lt;div className="container mx-auto px-4 py-4">
+          &lt;div className="flex items-center justify-between">
+            &lt;h1 className="text-2xl font-bold text-gray-800 font-heading">
+              Panel de Administración
+            &lt;/h1>
+            &lt;button
+              onClick={handleLogout}
+              className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors"
+            >
+              &lt;LogOut size={20} />
+              &lt;span>Cerrar Sesión&lt;/span>
+            &lt;/button>
+          &lt;/div>
+        &lt;/div>
+      &lt;/div>
+
+      {/* Navegación de pestañas */}
+      &lt;div className="bg-white border-b">
+        &lt;div className="container mx-auto px-4">
+          &lt;nav className="flex space-x-8">
+            {tabs.map((tab) => (
+              &lt;button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center space-x-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  activeTab === tab.id
+                    ? 'border-amber-500 text-amber-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700'
+                }`}
+              >
+                &lt;tab.icon size={20} />
+                &lt;span>{tab.label}&lt;/span>
+              &lt;/button>
+            ))}
+          &lt;/nav>
+        &lt;/div>
+      &lt;/div>
+
+      {/* Contenido de las pestañas */}
+      &lt;div className="container mx-auto px-4 py-8">
+        {/* Pestaña de Proyectos */}
+        {activeTab === 'projects' &amp;&amp; (
+          &lt;div>
+            &lt;div className="flex items-center justify-between mb-6">
+              &lt;h2 className="text-xl font-semibold text-gray-800">
+                Gestión de Proyectos
+              &lt;/h2>
+              &lt;button
+                onClick={() => setShowProjectModal(true)}
+                className="btn-primary flex items-center space-x-2"
+              >
+                &lt;Plus size={20} />
+                &lt;span>Nuevo Proyecto&lt;/span>
+              &lt;/button>
+            &lt;/div>
+
+            &lt;div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {projects.map((project) => (
+                &lt;motion.div
+                  key={project.id}
+                  className="bg-white rounded-lg shadow-md overflow-hidden"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  &lt;div className="aspect-video bg-gray-200 relative">
+                    {project.images &amp;&amp; project.images[0] ? (
+                      &lt;img
+                        src={project.images[0]}
+                        alt={project.title}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      &lt;div className="w-full h-full flex items-center justify-center">
+                        &lt;ImageIcon size={48} className="text-gray-400" />
+                      &lt;/div>
+                    )}
+                  &lt;/div>
+                  
+                  &lt;div className="p-4">
+                    &lt;h3 className="font-semibold text-gray-800 mb-2">{project.title}&lt;/h3>
+                    &lt;p className="text-sm text-gray-600 mb-2">{project.category}&lt;/p>
+                    &lt;p className="text-sm text-gray-500 mb-4 line-clamp-2">
+                      {project.description}
+                    &lt;/p>
+                    
+                    &lt;div className="flex items-center justify-between">
+                      &lt;span className="text-xs text-gray-400">
+                        {project.images?.length || 0} imágenes
+                      &lt;/span>
+                      &lt;div className="flex space-x-2">
+                        &lt;button
+                          onClick={() => editProject(project)}
+                          className="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                          title="Editar"
+                        >
+                          &lt;Edit size={16} />
+                        &lt;/button>
+                        &lt;button
+                          onClick={() => deleteProject(project.id)}
+                          className="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                          title="Eliminar"
+                        >
+                          &lt;Trash2 size={16} />
+                        &lt;/button>
+                      &lt;/div>
+                    &lt;/div>
+                  &lt;/div>
+                &lt;/motion.div>
+              ))}
+            &lt;/div>
+
+            {projects.length === 0 &amp;&amp; (
+              &lt;div className="text-center py-12">
+                &lt;Folder size={48} className="mx-auto text-gray-400 mb-4" />
+                &lt;p className="text-gray-500">No hay proyectos cargados&lt;/p>
+              &lt;/div>
+            )}
+          &lt;/div>
+        )}
+
+        {/* Pestaña de Consultas */}
+        {activeTab === 'contacts' &amp;&amp; (
+          &lt;div>
+            &lt;h2 className="text-xl font-semibold text-gray-800 mb-6">
+              Consultas de Contacto ({contacts.length})
+            &lt;/h2>
+
+            &lt;div className="space-y-4">
+              {contacts.map((contact) => (
+                &lt;motion.div
+                  key={contact.id}
+                  className="bg-white rounded-lg shadow-md p-6"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  &lt;div className="flex items-start justify-between">
+                    &lt;div className="flex-1">
+                      &lt;div className="flex items-center space-x-4 mb-3">
+                        &lt;h3 className="font-semibold text-gray-800">{contact.name}&lt;/h3>
+                        &lt;span className="text-sm text-gray-500">
+                          {contact.timestamp?.toDate().toLocaleDateString()}
+                        &lt;/span>
+                        &lt;span className="px-2 py-1 bg-amber-100 text-amber-800 text-xs rounded-full">
+                          {contact.projectType}
+                        &lt;/span>
+                      &lt;/div>
+                      
+                      &lt;div className="grid md:grid-cols-2 gap-4 mb-4">
+                        &lt;div>
+                          &lt;p className="text-sm text-gray-600">Email: {contact.email}&lt;/p>
+                          {contact.phone &amp;&amp; (
+                            &lt;p className="text-sm text-gray-600">Teléfono: {contact.phone}&lt;/p>
+                          )}
+                          {contact.budget &amp;&amp; (
+                            &lt;p className="text-sm text-gray-600">Presupuesto: {contact.budget}&lt;/p>
+                          )}
+                        &lt;/div>
+                      &lt;/div>
+                      
+                      &lt;div className="bg-gray-50 rounded-lg p-3">
+                        &lt;p className="text-sm text-gray-700">{contact.message}&lt;/p>
+                      &lt;/div>
+                    &lt;/div>
+                    
+                    &lt;button
+                      onClick={() => deleteContact(contact.id)}
+                      className="ml-4 p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                      title="Eliminar consulta"
+                    >
+                      &lt;Trash2 size={16} />
+                    &lt;/button>
+                  &lt;/div>
+                &lt;/motion.div>
+              ))}
+            &lt;/div>
+
+            {contacts.length === 0 &amp;&amp; (
+              &lt;div className="text-center py-12">
+                &lt;Mail size={48} className="mx-auto text-gray-400 mb-4" />
+                &lt;p className="text-gray-500">No hay consultas recibidas&lt;/p>
+              &lt;/div>
+            )}
+          &lt;/div>
+        )}
+
+        {/* Pestaña de Estadísticas */}
+        {activeTab === 'stats' &amp;&amp; (
+          &lt;div>
+            &lt;h2 className="text-xl font-semibold text-gray-800 mb-6">
+              Estadísticas del Sitio
+            &lt;/h2>
+            
+            &lt;div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              &lt;div className="bg-white rounded-lg shadow-md p-6 text-center">
+                &lt;Folder size={32} className="mx-auto text-blue-600 mb-2" />
+                &lt;div className="text-2xl font-bold text-gray-800">{projects.length}&lt;/div>
+                &lt;div className="text-gray-600">Proyectos&lt;/div>
+              &lt;/div>
+              
+              &lt;div className="bg-white rounded-lg shadow-md p-6 text-center">
+                &lt;Mail size={32} className="mx-auto text-green-600 mb-2" />
+                &lt;div className="text-2xl font-bold text-gray-800">{contacts.length}&lt;/div>
+                &lt;div className="text-gray-600">Consultas&lt;/div>
+              &lt;/div>
+              
+              &lt;div className="bg-white rounded-lg shadow-md p-6 text-center">
+                &lt;ImageIcon size={32} className="mx-auto text-purple-600 mb-2" />
+                &lt;div className="text-2xl font-bold text-gray-800">
+                  {projects.reduce((total, p) => total + (p.images?.length || 0), 0)}
+                &lt;/div>
+                &lt;div className="text-gray-600">Imágenes&lt;/div>
+              &lt;/div>
+              
+              &lt;div className="bg-white rounded-lg shadow-md p-6 text-center">
+                &lt;Users size={32} className="mx-auto text-orange-600 mb-2" />
+                &lt;div className="text-2xl font-bold text-gray-800">
+                  {new Set(contacts.map(c => c.email)).size}
+                &lt;/div>
+                &lt;div className="text-gray-600">Clientes Únicos&lt;/div>
+              &lt;/div>
+            &lt;/div>
+          &lt;/div>
+        )}
+      &lt;/div>
+
+      {/* Modal de Proyecto */}
+      &lt;AnimatePresence>
+        {showProjectModal &amp;&amp; (
+          &lt;motion.div
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => {
+              setShowProjectModal(false);
+              setEditingProject(null);
+              resetProject();
+            }}
+          >
+            &lt;motion.div
+              className="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.8, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              &lt;div className="flex items-center justify-between p-6 border-b">
+                &lt;h2 className="text-xl font-bold text-gray-800">
+                  {editingProject ? 'Editar Proyecto' : 'Nuevo Proyecto'}
+                &lt;/h2>
+                &lt;button
+                  onClick={() => {
+                    setShowProjectModal(false);
+                    setEditingProject(null);
+                    resetProject();
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded-full"
+                >
+                  &lt;X size={20} />
+                &lt;/button>
+              &lt;/div>
+
+              &lt;form onSubmit={handleProjectFormSubmit(onProjectSubmit)} className="p-6 space-y-4">
+                &lt;div>
+                  &lt;label className="block text-sm font-medium text-gray-700 mb-2">
+                    Título del Proyecto *
+                  &lt;/label>
+                  &lt;input
+                    type="text"
+                    {...registerProject('title', { required: 'Título requerido' })}
+                    className="form-input"
+                    placeholder="Ej: Cocina Integral Moderna"
+                  />
+                  {projectErrors.title &amp;&amp; (
+                    &lt;p className="text-red-500 text-sm mt-1">{projectErrors.title.message}&lt;/p>
+                  )}
+                &lt;/div>
+
+                &lt;div>
+                  &lt;label className="block text-sm font-medium text-gray-700 mb-2">
+                    Categoría *
+                  &lt;/label>
+                  &lt;select
+                    {...registerProject('category', { required: 'Categoría requerida' })}
+                    className="form-input"
+                  >
+                    &lt;option value="">Seleccionar categoría&lt;/option>
+                    {categories.map(cat => (
+                      &lt;option key={cat} value={cat}>{cat}&lt;/option>
+                    ))}
+                  &lt;/select>
+                  {projectErrors.category &amp;&amp; (
+                    &lt;p className="text-red-500 text-sm mt-1">{projectErrors.category.message}&lt;/p>
+                  )}
+                &lt;/div>
+
+                &lt;div>
+                  &lt;label className="block text-sm font-medium text-gray-700 mb-2">
+                    Descripción *
+                  &lt;/label>
+                  &lt;textarea
+                    {...registerProject('description', { required: 'Descripción requerida' })}
+                    className="form-textarea"
+                    rows={3}
+                    placeholder="Descripción detallada del proyecto"
+                  />
+                  {projectErrors.description &amp;&amp; (
+                    &lt;p className="text-red-500 text-sm mt-1">{projectErrors.description.message}&lt;/p>
+                  )}
+                &lt;/div>
+
+                &lt;div>
+                  &lt;label className="block text-sm font-medium text-gray-700 mb-2">
+                    Cliente *
+                  &lt;/label>
+                  &lt;input
+                    type="text"
+                    {...registerProject('client', { required: 'Cliente requerido' })}
+                    className="form-input"
+                    placeholder="Nombre del cliente"
+                  />
+                  {projectErrors.client &amp;&amp; (
+                    &lt;p className="text-red-500 text-sm mt-1">{projectErrors.client.message}&lt;/p>
+                  )}
+                &lt;/div>
+
+                &lt;div>
+                  &lt;label className="block text-sm font-medium text-gray-700 mb-2">
+                    Fecha *
+                  &lt;/label>
+                  &lt;input
+                    type="date"
+                    {...registerProject('date', { required: 'Fecha requerida' })}
+                    className="form-input"
+                  />
+                  {projectErrors.date &amp;&amp; (
+                    &lt;p className="text-red-500 text-sm mt-1">{projectErrors.date.message}&lt;/p>
+                  )}
+                &lt;/div>
+
+                &lt;div>
+                  &lt;label className="block text-sm font-medium text-gray-700 mb-2">
+                    Materiales (separados por coma) *
+                  &lt;/label>
+                  &lt;input
+                    type="text"
+                    {...registerProject('materials', { required: 'Materiales requeridos' })}
+                    className="form-input"
+                    placeholder="Ej: MDF, Granito, Acero inoxidable"
+                  />
+                  {projectErrors.materials &amp;&amp; (
+                    &lt;p className="text-red-500 text-sm mt-1">{projectErrors.materials.message}&lt;/p>
+                  )}
+                &lt;/div>
+
+                &lt;div>
+                  &lt;label className="block text-sm font-medium text-gray-700 mb-2">
+                    Imágenes {!editingProject &amp;&amp; '*'}
+                  &lt;/label>
+                  &lt;input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    {...registerProject('images', { 
+                      required: !editingProject ? 'Al menos una imagen requerida' : false 
+                    })}
+                    className="form-input"
+                  />
+                  {projectErrors.images &amp;&amp; (
+                    &lt;p className="text-red-500 text-sm mt-1">{projectErrors.images.message}&lt;/p>
+                  )}
+                  {editingProject &amp;&amp; editingProject.images &amp;&amp; (
+                    &lt;div className="mt-2">
+                      &lt;p className="text-sm text-gray-600">
+                        Imágenes actuales: {editingProject.images.length}
+                      &lt;/p>
+                    &lt;/div>
+                  )}
+                &lt;/div>
+
+                &lt;div className="flex justify-end space-x-3 pt-4">
+                  &lt;button
+                    type="button"
+                    onClick={() => {
+                      setShowProjectModal(false);
+                      setEditingProject(null);
+                      resetProject();
+                    }}
+                    className="btn-secondary"
+                  >
+                    Cancelar
+                  &lt;/button>
+                  &lt;button
+                    type="submit"
+                    disabled={loading || uploadingImages}
+                    className="btn-primary flex items-center space-x-2"
+                  >
+                    {loading || uploadingImages ? (
+                      &lt;>
+                        &lt;div className="loading-spinner">&lt;/div>
+                        &lt;span>
+                          {uploadingImages ? 'Subiendo imágenes...' : 'Guardando...'}
+                        &lt;/span>
+                      &lt;/>
+                    ) : (
+                      &lt;>
+                        &lt;Save size={20} />
+                        &lt;span>{editingProject ? 'Actualizar' : 'Guardar'}&lt;/span>
+                      &lt;/>
+                    )}
+                  &lt;/button>
+                &lt;/div>
+              &lt;/form>
+            &lt;/motion.div>
+          &lt;/motion.div>
+        )}
+      &lt;/AnimatePresence>
+    &lt;/div>
+  );
+};
+
+export default Admin;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Contact">Contact</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Gallery">Gallery</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#WhatsAppButton">WhatsAppButton</a></li><li><a href="global.html#analytics">analytics</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#appConfig">appConfig</a></li><li><a href="global.html#auth">auth</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#firebaseConfig">firebaseConfig</a></li><li><a href="global.html#firebaseInfo">firebaseInfo</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#storage">storage</a></li><li><a href="global.html#validateConfig">validateConfig</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jun 24 2025 14:44:10 GMT-0300 (hora estándar de Argentina)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

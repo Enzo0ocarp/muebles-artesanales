@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/About/About.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/About/About.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Página sobre nosotros con historia y valores de la empresa
+ * @author Muebles Artesanales
+ * @version 1.0.0
+ */
+
+import React from 'react';
+import { motion } from 'framer-motion';
+import { 
+  Heart, 
+  Award, 
+  Users, 
+  Leaf, 
+  Clock, 
+  Star,
+  Hammer,
+  Shield,
+  Target
+} from 'lucide-react';
+
+/**
+ * Componente de la página "Sobre Nosotros"
+ * Cuenta la historia, valores y filosofía de la empresa
+ * 
+ * @component
+ * @returns {JSX.Element} Página sobre nosotros
+ * 
+ * @example
+ * return (
+ *   &lt;About />
+ * )
+ */
+const About = () => {
+  /**
+   * Valores principales de la empresa
+   * @type {Array&lt;Object>}
+   * @constant
+   */
+  const values = [
+    {
+      icon: Heart,
+      title: 'Pasión',
+      description: 'Cada mueble es creado con amor y dedicación, poniendo el corazón en cada detalle.',
+      color: 'text-red-500'
+    },
+    {
+      icon: Award,
+      title: 'Calidad',
+      description: 'Utilizamos los mejores materiales y técnicas para garantizar durabilidad y belleza.',
+      color: 'text-yellow-500'
+    },
+    {
+      icon: Users,
+      title: 'Servicio',
+      description: 'Trabajamos de la mano con nuestros clientes para hacer realidad sus sueños.',
+      color: 'text-blue-500'
+    },
+    {
+      icon: Leaf,
+      title: 'Sustentabilidad',
+      description: 'Comprometidos con el medio ambiente, usamos maderas certificadas y procesos responsables.',
+      color: 'text-green-500'
+    }
+  ];
+
+  /**
+   * Logros y estadísticas de la empresa
+   * @type {Array&lt;Object>}
+   * @constant
+   */
+  const achievements = [
+    {
+      icon: Clock,
+      number: '15+',
+      label: 'Años de Experiencia',
+      description: 'Perfeccionando nuestro arte desde 2009'
+    },
+    {
+      icon: Users,
+      number: '200+',
+      label: 'Clientes Satisfechos',
+      description: 'Familias que confían en nuestro trabajo'
+    },
+    {
+      icon: Hammer,
+      number: '500+',
+      label: 'Proyectos Completados',
+      description: 'Muebles únicos entregados con éxito'
+    },
+    {
+      icon: Star,
+      number: '4.9/5',
+      label: 'Puntuación Promedio',
+      description: 'Calificación de nuestros clientes'
+    }
+  ];
+
+  /**
+   * Procesos de trabajo
+   * @type {Array&lt;Object>}
+   * @constant
+   */
+  const process = [
+    {
+      step: 1,
+      title: 'Consulta Inicial',
+      description: 'Escuchamos tus ideas y necesidades. Analizamos el espacio y definimos el proyecto.',
+      icon: Users
+    },
+    {
+      step: 2,
+      title: 'Diseño y Presupuesto',
+      description: 'Creamos el diseño personalizado y te presentamos un presupuesto detallado.',
+      icon: Target
+    },
+    {
+      step: 3,
+      title: 'Fabricación',
+      description: 'Nuestros artesanos trabajan con precisión usando las mejores técnicas y materiales.',
+      icon: Hammer
+    },
+    {
+      step: 4,
+      title: 'Entrega e Instalación',
+      description: 'Instalamos tu mueble con cuidado y te enseñamos su mantenimiento.',
+      icon: Shield
+    }
+  ];
+
+  /**
+   * Variantes de animación
+   * @type {Object}
+   */
+  const fadeInUp = {
+    initial: { opacity: 0, y: 60 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.6 }
+  };
+
+  const staggerContainer = {
+    animate: {
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  return (
+    &lt;div className="min-h-screen bg-gray-50 pt-20">
+      {/* Hero Section */}
+      &lt;section className="relative py-20 bg-gradient-wood text-white overflow-hidden">
+        &lt;div className="absolute inset-0 bg-black/20">&lt;/div>
+        &lt;div className="container mx-auto px-4 relative z-10">
+          &lt;motion.div
+            className="text-center max-w-4xl mx-auto"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            &lt;h1 className="text-5xl md:text-6xl font-bold mb-6 font-heading">
+              Nuestra Historia
+            &lt;/h1>
+            &lt;p className="text-xl md:text-2xl text-amber-100 leading-relaxed">
+              Desde 2009 transformamos espacios con muebles únicos, 
+              combinando tradición artesanal con diseño contemporáneo.
+            &lt;/p>
+          &lt;/motion.div>
+        &lt;/div>
+        
+        {/* Elementos decorativos */}
+        &lt;div className="absolute top-10 left-10 opacity-20">
+          &lt;Hammer size={100} className="text-amber-300" />
+        &lt;/div>
+        &lt;div className="absolute bottom-10 right-10 opacity-20">
+          &lt;Heart size={80} className="text-amber-300" />
+        &lt;/div>
+      &lt;/section>
+
+      {/* Historia Principal */}
+      &lt;section className="py-20 bg-white">
+        &lt;div className="container mx-auto px-4">
+          &lt;div className="grid lg:grid-cols-2 gap-12 items-center">
+            &lt;motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              &lt;h2 className="text-4xl font-bold text-gray-800 mb-6 font-heading">
+                Todo comenzó con una pasión
+              &lt;/h2>
+              &lt;div className="space-y-4 text-gray-600 text-lg leading-relaxed">
+                &lt;p>
+                  Mi papá comenzó este emprendimiento en su garage, con herramientas básicas 
+                  y un sueño: crear muebles que no solo fueran funcionales, sino que contaran 
+                  la historia de cada familia.
+                &lt;/p>
+                &lt;p>
+                  Lo que empezó como un hobby de fin de semana se convirtió en su verdadera 
+                  vocación. Cada proyecto era una oportunidad de aprender algo nuevo, de 
+                  perfeccionar una técnica, de hacer feliz a una familia más.
+                &lt;/p>
+                &lt;p>
+                  Hoy, 15 años después, seguimos con la misma filosofía: cada mueble es único, 
+                  cada cliente es especial, y cada proyecto es una oportunidad de crear algo 
+                  extraordinario que durará generaciones.
+                &lt;/p>
+              &lt;/div>
+            &lt;/motion.div>
+
+            &lt;motion.div
+              className="grid grid-cols-2 gap-4"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+            >
+              &lt;div className="space-y-4">
+                &lt;div className="aspect-square bg-gray-200 rounded-xl overflow-hidden">
+                  &lt;img
+                    src="/images/workshop-1.jpg"
+                    alt="Taller de carpintería"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  &lt;div className="w-full h-full bg-gradient-wood flex items-center justify-center">
+                    &lt;span className="text-white font-medium">Nuestro Taller&lt;/span>
+                  &lt;/div>
+                &lt;/div>
+                &lt;div className="aspect-square bg-gray-200 rounded-xl overflow-hidden">
+                  &lt;img
+                    src="/images/craftsman-1.jpg"
+                    alt="Artesano trabajando"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  &lt;div className="w-full h-full bg-gradient-wood flex items-center justify-center">
+                    &lt;span className="text-white font-medium">Artesanía&lt;/span>
+                  &lt;/div>
+                &lt;/div>
+              &lt;/div>
+              &lt;div className="space-y-4 mt-8">
+                &lt;div className="aspect-square bg-gray-200 rounded-xl overflow-hidden">
+                  &lt;img
+                    src="/images/materials-1.jpg"
+                    alt="Materiales de calidad"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  &lt;div className="w-full h-full bg-gradient-wood flex items-center justify-center">
+                    &lt;span className="text-white font-medium">Materiales&lt;/span>
+                  &lt;/div>
+                &lt;/div>
+                &lt;div className="aspect-square bg-gray-200 rounded-xl overflow-hidden">
+                  &lt;img
+                    src="/images/finished-1.jpg"
+                    alt="Mueble terminado"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                      e.target.nextSibling.style.display = 'flex';
+                    }}
+                  />
+                  &lt;div className="w-full h-full bg-gradient-wood flex items-center justify-center">
+                    &lt;span className="text-white font-medium">Resultado&lt;/span>
+                  &lt;/div>
+                &lt;/div>
+              &lt;/div>
+            &lt;/motion.div>
+          &lt;/div>
+        &lt;/div>
+      &lt;/section>
+
+      {/* Valores */}
+      &lt;section className="py-20 bg-amber-50">
+        &lt;div className="container mx-auto px-4">
+          &lt;motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            &lt;h2 className="text-4xl font-bold text-gray-800 mb-4 font-heading">
+              Nuestros Valores
+            &lt;/h2>
+            &lt;p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Los principios que guían cada decisión y cada proyecto que emprendemos
+            &lt;/p>
+          &lt;/motion.div>
+
+          &lt;motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
+            {values.map((value, index) => (
+              &lt;motion.div
+                key={index}
+                className="bg-white rounded-xl shadow-lg p-6 text-center hover:shadow-xl transition-shadow duration-300"
+                variants={fadeInUp}
+              >
+                &lt;div className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-100 mb-4 ${value.color}`}>
+                  &lt;value.icon size={32} />
+                &lt;/div>
+                &lt;h3 className="text-xl font-semibold text-gray-800 mb-3">
+                  {value.title}
+                &lt;/h3>
+                &lt;p className="text-gray-600">
+                  {value.description}
+                &lt;/p>
+              &lt;/motion.div>
+            ))}
+          &lt;/motion.div>
+        &lt;/div>
+      &lt;/section>
+
+      {/* Logros */}
+      &lt;section className="py-20 bg-white">
+        &lt;div className="container mx-auto px-4">
+          &lt;motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            &lt;h2 className="text-4xl font-bold text-gray-800 mb-4 font-heading">
+              Nuestros Logros
+            &lt;/h2>
+            &lt;p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Números que reflejan nuestro compromiso con la excelencia
+            &lt;/p>
+          &lt;/motion.div>
+
+          &lt;motion.div
+            className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
+            {achievements.map((achievement, index) => (
+              &lt;motion.div
+                key={index}
+                className="text-center"
+                variants={fadeInUp}
+              >
+                &lt;div className="inline-flex items-center justify-center w-20 h-20 bg-amber-100 rounded-full mb-4">
+                  &lt;achievement.icon size={40} className="text-amber-700" />
+                &lt;/div>
+                &lt;div className="text-4xl font-bold text-gray-800 mb-2">
+                  {achievement.number}
+                &lt;/div>
+                &lt;h3 className="text-lg font-semibold text-gray-800 mb-2">
+                  {achievement.label}
+                &lt;/h3>
+                &lt;p className="text-gray-600 text-sm">
+                  {achievement.description}
+                &lt;/p>
+              &lt;/motion.div>
+            ))}
+          &lt;/motion.div>
+        &lt;/div>
+      &lt;/section>
+
+      {/* Proceso de Trabajo */}
+      &lt;section className="py-20 bg-gray-100">
+        &lt;div className="container mx-auto px-4">
+          &lt;motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            &lt;h2 className="text-4xl font-bold text-gray-800 mb-4 font-heading">
+              Nuestro Proceso
+            &lt;/h2>
+            &lt;p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Desde la primera consulta hasta la entrega final, cada paso está cuidadosamente planificado
+            &lt;/p>
+          &lt;/motion.div>
+
+          &lt;div className="max-w-4xl mx-auto">
+            &lt;motion.div
+              className="space-y-8"
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="animate"
+              viewport={{ once: true }}
+            >
+              {process.map((step, index) => (
+                &lt;motion.div
+                  key={index}
+                  className="flex flex-col md:flex-row items-center bg-white rounded-xl shadow-lg p-6 md:p-8"
+                  variants={fadeInUp}
+                >
+                  &lt;div className="flex-shrink-0 mb-4 md:mb-0 md:mr-6">
+                    &lt;div className="relative">
+                      &lt;div className="w-16 h-16 bg-amber-700 rounded-full flex items-center justify-center">
+                        &lt;step.icon size={32} className="text-white" />
+                      &lt;/div>
+                      &lt;div className="absolute -top-2 -right-2 w-6 h-6 bg-amber-500 rounded-full flex items-center justify-center">
+                        &lt;span className="text-white text-sm font-bold">{step.step}&lt;/span>
+                      &lt;/div>
+                    &lt;/div>
+                  &lt;/div>
+                  
+                  &lt;div className="text-center md:text-left">
+                    &lt;h3 className="text-xl font-semibold text-gray-800 mb-2">
+                      {step.title}
+                    &lt;/h3>
+                    &lt;p className="text-gray-600">
+                      {step.description}
+                    &lt;/p>
+                  &lt;/div>
+                &lt;/motion.div>
+              ))}
+            &lt;/motion.div>
+          &lt;/div>
+        &lt;/div>
+      &lt;/section>
+
+      {/* Testimonios */}
+      &lt;section className="py-20 bg-white">
+        &lt;div className="container mx-auto px-4">
+          &lt;motion.div
+            className="text-center mb-16"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            &lt;h2 className="text-4xl font-bold text-gray-800 mb-4 font-heading">
+              Lo que dicen nuestros clientes
+            &lt;/h2>
+            &lt;p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Sus palabras son nuestro mejor respaldo
+            &lt;/p>
+          &lt;/motion.div>
+
+          &lt;motion.div
+            className="grid md:grid-cols-3 gap-8"
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+          >
+            {[
+              {
+                name: "María González",
+                project: "Cocina Integral",
+                quote: "Superaron todas mis expectativas. La atención al detalle es increíble y el resultado final es exactamente lo que soñaba para mi hogar.",
+                rating: 5
+              },
+              {
+                name: "Carlos Rodríguez",
+                project: "Oficina Completa",
+                quote: "Profesionales de primera. Cumplieron con los tiempos prometidos y la calidad es excepcional. Sin dudas los recomiendo.",
+                rating: 5
+              },
+              {
+                name: "Ana Martínez",
+                project: "Placard Familiar",
+                quote: "Desde el primer momento se notó su experiencia. Nos asesoraron perfectamente y el resultado aprovecha cada centímetro del espacio.",
+                rating: 5
+              }
+            ].map((testimonial, index) => (
+              &lt;motion.div
+                key={index}
+                className="bg-gray-50 rounded-xl p-6"
+                variants={fadeInUp}
+              >
+                &lt;div className="flex mb-4">
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    &lt;Star key={i} size={20} className="text-yellow-400 fill-current" />
+                  ))}
+                &lt;/div>
+                &lt;p className="text-gray-600 mb-4 italic">
+                  "{testimonial.quote}"
+                &lt;/p>
+                &lt;div className="border-t pt-4">
+                  &lt;p className="font-semibold text-gray-800">{testimonial.name}&lt;/p>
+                  &lt;p className="text-sm text-gray-500">{testimonial.project}&lt;/p>
+                &lt;/div>
+              &lt;/motion.div>
+            ))}
+          &lt;/motion.div>
+        &lt;/div>
+      &lt;/section>
+
+      {/* CTA Section */}
+      &lt;section className="py-20 bg-gradient-wood text-white">
+        &lt;div className="container mx-auto px-4 text-center">
+          &lt;motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            &lt;h2 className="text-4xl font-bold mb-4 font-heading">
+              ¿Querés ser parte de nuestra historia?
+            &lt;/h2>
+            &lt;p className="text-xl text-amber-100 mb-8 max-w-2xl mx-auto">
+              Contanos tu proyecto y hagamos juntos el mueble perfecto para tu hogar. 
+              Cada cliente se convierte en parte de nuestra gran familia.
+            &lt;/p>
+            &lt;motion.div
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              &lt;a
+                href="/contacto"
+                className="bg-white text-amber-800 hover:bg-amber-50 font-medium py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+              >
+                Comenzar mi Proyecto
+              &lt;/a>
+              &lt;a
+                href="/galeria"
+                className="border-2 border-white text-white hover:bg-white hover:text-amber-800 font-medium py-4 px-8 rounded-lg transition-all duration-300"
+              >
+                Ver Nuestros Trabajos
+              &lt;/a>
+            &lt;/motion.div>
+          &lt;/motion.div>
+        &lt;/div>
+      &lt;/section>
+    &lt;/div>
+  );
+};
+
+export default About;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Contact">Contact</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Gallery">Gallery</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#WhatsAppButton">WhatsAppButton</a></li><li><a href="global.html#analytics">analytics</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#appConfig">appConfig</a></li><li><a href="global.html#auth">auth</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#firebaseConfig">firebaseConfig</a></li><li><a href="global.html#firebaseInfo">firebaseInfo</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#storage">storage</a></li><li><a href="global.html#validateConfig">validateConfig</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jun 24 2025 14:44:10 GMT-0300 (hora estándar de Argentina)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

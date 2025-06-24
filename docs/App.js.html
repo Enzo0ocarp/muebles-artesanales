@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: App.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: App.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Componente principal de la aplicación
+ * @author Muebles Artesanales
+ * @version 1.0.0
+ */
+
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// Componentes
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import WhatsAppButton from './components/WhatsAppButton/WhatsAppButton';
+
+// Páginas
+import Home from './pages/Home/Home';
+import Gallery from './pages/Gallery/Gallery';
+import Contact from './pages/Contact/Contact';
+import About from './pages/About/About';
+import Admin from './pages/Admin/Admin';
+
+// Estilos
+import './App.css';
+
+/**
+ * Componente principal de la aplicación
+ * Maneja el enrutamiento y la estructura general del sitio
+ * 
+ * @component
+ * @returns {JSX.Element} Estructura principal de la aplicación
+ * 
+ * @example
+ * return (
+ *   &lt;App />
+ * )
+ */
+function App() {
+  /**
+   * Variantes de animación para las transiciones de página
+   * @type {Object}
+   */
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+      y: 20
+    },
+    in: {
+      opacity: 1,
+      y: 0
+    },
+    out: {
+      opacity: 0,
+      y: -20
+    }
+  };
+
+  /**
+   * Configuración de transiciones para las animaciones
+   * @type {Object}
+   */
+  const pageTransition = {
+    type: "tween",
+    ease: "anticipate",
+    duration: 0.4
+  };
+
+  return (
+    &lt;Router>
+      &lt;div className="App min-h-screen flex flex-col bg-amber-50">
+        &lt;Header />
+        
+        &lt;main className="flex-grow">
+          &lt;AnimatePresence mode="wait">
+            &lt;Routes>
+              &lt;Route 
+                path="/" 
+                element={
+                  &lt;motion.div
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={pageVariants}
+                    transition={pageTransition}
+                  >
+                    &lt;Home />
+                  &lt;/motion.div>
+                } 
+              />
+              &lt;Route 
+                path="/galeria" 
+                element={
+                  &lt;motion.div
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={pageVariants}
+                    transition={pageTransition}
+                  >
+                    &lt;Gallery />
+                  &lt;/motion.div>
+                } 
+              />
+              &lt;Route 
+                path="/contacto" 
+                element={
+                  &lt;motion.div
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={pageVariants}
+                    transition={pageTransition}
+                  >
+                    &lt;Contact />
+                  &lt;/motion.div>
+                } 
+              />
+              &lt;Route 
+                path="/nosotros" 
+                element={
+                  &lt;motion.div
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={pageVariants}
+                    transition={pageTransition}
+                  >
+                    &lt;About />
+                  &lt;/motion.div>
+                } 
+              />
+              &lt;Route 
+                path="/admin" 
+                element={
+                  &lt;motion.div
+                    initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={pageVariants}
+                    transition={pageTransition}
+                  >
+                    &lt;Admin />
+                  &lt;/motion.div>
+                } 
+              />
+            &lt;/Routes>
+          &lt;/AnimatePresence>
+        &lt;/main>
+
+        &lt;Footer />
+        &lt;WhatsAppButton />
+      &lt;/div>
+    &lt;/Router>
+  );
+}
+
+export default App;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Contact">Contact</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Gallery">Gallery</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#WhatsAppButton">WhatsAppButton</a></li><li><a href="global.html#analytics">analytics</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#appConfig">appConfig</a></li><li><a href="global.html#auth">auth</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#firebaseConfig">firebaseConfig</a></li><li><a href="global.html#firebaseInfo">firebaseInfo</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#storage">storage</a></li><li><a href="global.html#validateConfig">validateConfig</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jun 24 2025 14:44:10 GMT-0300 (hora estándar de Argentina)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/Header/Header.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/Header/Header.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @fileoverview Componente Header para navegación principal
+ * @author Muebles Artesanales  
+ * @version 1.0.0
+ */
+
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { Menu, X, Hammer } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+/**
+ * Componente Header que contiene la navegación principal del sitio
+ * Incluye menú responsive y efectos de scroll
+ * 
+ * @component
+ * @returns {JSX.Element} Header con navegación
+ * 
+ * @example
+ * return (
+ *   &lt;Header />
+ * )
+ */
+const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+
+  /**
+   * Enlaces de navegación del menú principal
+   * @type {Array&lt;Object>}
+   * @constant
+   */
+  const navigationLinks = [
+    { path: '/', label: 'Inicio' },
+    { path: '/galeria', label: 'Galería' },
+    { path: '/nosotros', label: 'Nosotros' },
+    { path: '/contacto', label: 'Contacto' }
+  ];
+
+  /**
+   * Efecto para detectar el scroll y cambiar el estilo del header
+   */
+  useEffect(() => {
+    /**
+     * Maneja el evento de scroll para cambiar el estado del header
+     * @function
+     */
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  /**
+   * Cierra el menú móvil cuando cambia la ruta
+   */
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location]);
+
+  /**
+   * Alterna el estado del menú móvil
+   * @function
+   */
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  /**
+   * Verifica si una ruta está activa
+   * @param {string} path - Ruta a verificar
+   * @returns {boolean} True si la ruta está activa
+   */
+  const isActiveRoute = (path) => {
+    return location.pathname === path;
+  };
+
+  return (
+    &lt;motion.header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white/95 backdrop-blur-md shadow-lg' 
+          : 'bg-transparent'
+      }`}
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
+      &lt;div className="container mx-auto px-4 py-4">
+        &lt;div className="flex items-center justify-between">
+          {/* Logo */}
+          &lt;Link to="/" className="flex items-center space-x-2 group">
+            &lt;motion.div
+              className="bg-amber-700 p-2 rounded-lg group-hover:bg-amber-800 transition-colors duration-300"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              &lt;Hammer className="h-6 w-6 text-white" />
+            &lt;/motion.div>
+            &lt;div className="font-heading">
+              &lt;h1 className="text-xl font-bold text-amber-900">
+                Muebles Beltran
+              &lt;/h1>
+              &lt;p className="text-sm text-amber-700 -mt-1">
+                Carpintería de calidad
+              &lt;/p>
+            &lt;/div>
+          &lt;/Link>
+
+          {/* Navegación Desktop */}
+          &lt;nav className="hidden md:flex items-center space-x-8">
+            {navigationLinks.map((link) => (
+              &lt;Link
+                key={link.path}
+                to={link.path}
+                className={`font-medium transition-all duration-300 hover:text-amber-700 relative ${
+                  isActiveRoute(link.path)
+                    ? 'text-amber-700'
+                    : isScrolled
+                    ? 'text-gray-700'
+                    : 'text-white'
+                }`}
+              >
+                {link.label}
+                {isActiveRoute(link.path) &amp;&amp; (
+                  &lt;motion.div
+                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-amber-700"
+                    layoutId="activeTab"
+                    initial={false}
+                    transition={{
+                      type: "spring",
+                      stiffness: 500,
+                      damping: 30
+                    }}
+                  />
+                )}
+              &lt;/Link>
+            ))}
+          &lt;/nav>
+
+          {/* Botón menú móvil */}
+          &lt;motion.button
+            onClick={toggleMenu}
+            className={`md:hidden p-2 rounded-lg transition-colors duration-300 ${
+              isScrolled
+                ? 'text-gray-700 hover:bg-gray-100'
+                : 'text-white hover:bg-white/10'
+            }`}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Toggle menu"
+          >
+            {isMenuOpen ? &lt;X size={24} /> : &lt;Menu size={24} />}
+          &lt;/motion.button>
+        &lt;/div>
+
+        {/* Menú móvil */}
+        &lt;AnimatePresence>
+          {isMenuOpen &amp;&amp; (
+            &lt;motion.nav
+              className="md:hidden mt-4 bg-white rounded-lg shadow-lg overflow-hidden"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              &lt;div className="py-2">
+                {navigationLinks.map((link, index) => (
+                  &lt;motion.div
+                    key={link.path}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: index * 0.1 }}
+                  >
+                    &lt;Link
+                      to={link.path}
+                      className={`block px-4 py-3 font-medium transition-colors duration-300 hover:bg-amber-50 ${
+                        isActiveRoute(link.path)
+                          ? 'text-amber-700 bg-amber-50 border-r-2 border-amber-700'
+                          : 'text-gray-700'
+                      }`}
+                    >
+                      {link.label}
+                    &lt;/Link>
+                  &lt;/motion.div>
+                ))}
+              &lt;/div>
+            &lt;/motion.nav>
+          )}
+        &lt;/AnimatePresence>
+      &lt;/div>
+    &lt;/motion.header>
+  );
+};
+
+export default Header;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Contact">Contact</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Gallery">Gallery</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#WhatsAppButton">WhatsAppButton</a></li><li><a href="global.html#analytics">analytics</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#appConfig">appConfig</a></li><li><a href="global.html#auth">auth</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#firebaseConfig">firebaseConfig</a></li><li><a href="global.html#firebaseInfo">firebaseInfo</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#storage">storage</a></li><li><a href="global.html#validateConfig">validateConfig</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jun 24 2025 14:44:10 GMT-0300 (hora estándar de Argentina)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

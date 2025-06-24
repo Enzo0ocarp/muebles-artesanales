@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Home</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Home</h1>
+
+    
+
+
+
+    
+
+
+    <h3> </h3>
+
+
+
+
+
+
+
+
+
+
+    
+
+
+
+
+    <section>
+        <article><h1>🪑 Muebles Artesanales - Sitio Web</h1>
+<p>Una aplicación web moderna desarrollada en React para mostrar trabajos de carpintería artesanal, permitir consultas de clientes y gestionar contenido a través de un panel de administración.</p>
+<h2>🎯 Características Principales</h2>
+<ul>
+<li><strong>Galería Interactiva</strong>: Visualización de proyectos organizados por categorías</li>
+<li><strong>Sistema de Contacto</strong>: Formulario de consultas con validación y almacenamiento en Firebase</li>
+<li><strong>Panel de Administración</strong>: Gestión completa de proyectos e imágenes</li>
+<li><strong>Botón WhatsApp Flotante</strong>: Contacto directo con el propietario</li>
+<li><strong>Diseño Responsive</strong>: Optimizado para todos los dispositivos</li>
+<li><strong>Animaciones Fluidas</strong>: Experiencia de usuario mejorada con Framer Motion</li>
+</ul>
+<h2>🛠️ Tecnologías Utilizadas</h2>
+<h3>Frontend</h3>
+<ul>
+<li><strong>React 18.2.0</strong> - Biblioteca principal de JavaScript</li>
+<li><strong>React Router Dom 6.8.1</strong> - Navegación entre páginas</li>
+<li><strong>Framer Motion 10.0.1</strong> - Animaciones y transiciones</li>
+<li><strong>React Hook Form 7.43.1</strong> - Manejo de formularios</li>
+<li><strong>Tailwind CSS 3.2.7</strong> - Framework de estilos</li>
+<li><strong>Lucide React 0.263.1</strong> - Iconografía</li>
+</ul>
+<h3>Backend y Base de Datos</h3>
+<ul>
+<li><strong>Firebase 10.7.1</strong> - Backend as a Service
+<ul>
+<li>Firestore - Base de datos NoSQL</li>
+<li>Storage - Almacenamiento de imágenes</li>
+<li>Authentication - Autenticación de administradores</li>
+</ul>
+</li>
+</ul>
+<h3>Herramientas de Desarrollo</h3>
+<ul>
+<li><strong>JSDoc 4.0.2</strong> - Documentación automática</li>
+<li><strong>PostCSS 8.4.21</strong> - Procesamiento de CSS</li>
+<li><strong>Autoprefixer 10.4.14</strong> - Compatibilidad CSS</li>
+</ul>
+<h2>📁 Estructura del Proyecto</h2>
+<pre class="prettyprint source"><code>src/
+├── components/           # Componentes reutilizables
+│   ├── Header/          # Navegación principal
+│   ├── Footer/          # Pie de página
+│   └── WhatsAppButton/  # Botón flotante de contacto
+├── pages/               # Páginas principales
+│   ├── Home/           # Página de inicio
+│   ├── Gallery/        # Galería de proyectos
+│   ├── Contact/        # Formulario de contacto
+│   ├── About/          # Sobre nosotros
+│   └── Admin/          # Panel de administración
+├── config/             # Configuraciones
+│   └── firebase.js     # Configuración de Firebase
+├── App.js              # Componente principal
+├── App.css             # Estilos globales
+└── index.js            # Punto de entrada
+</code></pre>
+<h2>🚀 Instalación y Configuración</h2>
+<h3>1. Clonar el Repositorio</h3>
+<pre class="prettyprint source lang-bash"><code>git clone https://github.com/tu-usuario/muebles-artesanales.git
+cd muebles-artesanales
+</code></pre>
+<h3>2. Instalar Dependencias</h3>
+<pre class="prettyprint source lang-bash"><code>npm install
+</code></pre>
+<h3>3. Configurar Firebase</h3>
+<ol>
+<li>Crear un proyecto en <a href="https://console.firebase.google.com/">Firebase Console</a></li>
+<li>Habilitar Firestore Database</li>
+<li>Habilitar Firebase Storage</li>
+<li>Habilitar Authentication (Email/Password)</li>
+<li>Actualizar <code>src/config/firebase.js</code> con tus credenciales:</li>
+</ol>
+<pre class="prettyprint source lang-javascript"><code>const firebaseConfig = {
+  apiKey: &quot;tu-api-key&quot;,
+  authDomain: &quot;tu-proyecto.firebaseapp.com&quot;,
+  projectId: &quot;tu-proyecto-id&quot;,
+  storageBucket: &quot;tu-proyecto.appspot.com&quot;,
+  messagingSenderId: &quot;123456789&quot;,
+  appId: &quot;tu-app-id&quot;
+};
+</code></pre>
+<h3>4. Configurar Variables de Entorno (Opcional)</h3>
+<p>Crear archivo <code>.env</code> en la raíz del proyecto:</p>
+<pre class="prettyprint source lang-env"><code>REACT_APP_FIREBASE_API_KEY=tu-api-key
+REACT_APP_FIREBASE_AUTH_DOMAIN=tu-proyecto.firebaseapp.com
+REACT_APP_FIREBASE_PROJECT_ID=tu-proyecto-id
+REACT_APP_FIREBASE_STORAGE_BUCKET=tu-proyecto.appspot.com
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=123456789
+REACT_APP_FIREBASE_APP_ID=tu-app-id
+</code></pre>
+<h3>5. Configurar Autenticación de Administrador</h3>
+<ol>
+<li>En Firebase Console, ir a Authentication</li>
+<li>Crear un usuario administrador</li>
+<li>Usar estas credenciales para acceder al panel de administración</li>
+</ol>
+<h2>🔧 Scripts Disponibles</h2>
+<h3>Desarrollo</h3>
+<pre class="prettyprint source lang-bash"><code>npm start
+# Ejecuta la aplicación en modo desarrollo
+# Abre http://localhost:3000 en el navegador
+</code></pre>
+<h3>Construcción</h3>
+<pre class="prettyprint source lang-bash"><code>npm run build
+# Construye la aplicación para producción en la carpeta build/
+</code></pre>
+<h3>Documentación</h3>
+<pre class="prettyprint source lang-bash"><code>npm run docs
+# Genera documentación JSDoc en la carpeta docs/
+</code></pre>
+<h3>Testing</h3>
+<pre class="prettyprint source lang-bash"><code>npm test
+# Ejecuta las pruebas en modo interactivo
+</code></pre>
+<h2>📖 Generar Documentación JSDoc</h2>
+<p>La documentación se genera automáticamente a partir de los comentarios JSDoc en el código:</p>
+<pre class="prettyprint source lang-bash"><code>npm run docs
+</code></pre>
+<p>Esto creará una carpeta <code>docs/</code> con la documentación HTML completa del proyecto.</p>
+<h3>Visualizar Documentación</h3>
+<ol>
+<li>Ejecutar <code>npm run docs</code></li>
+<li>Abrir <code>docs/index.html</code> en un navegador</li>
+<li>Navegar por la documentación de componentes y funciones</li>
+</ol>
+<h2>🎨 Personalización</h2>
+<h3>Colores y Estilos</h3>
+<p>Los colores principales se pueden modificar en:</p>
+<ul>
+<li><code>src/App.css</code> - Variables CSS personalizadas</li>
+<li><code>tailwind.config.js</code> - Configuración de Tailwind</li>
+</ul>
+<h3>Información de Contacto</h3>
+<p>Actualizar en:</p>
+<ul>
+<li><code>src/components/WhatsAppButton/WhatsAppButton.js</code> - Número de WhatsApp</li>
+<li><code>src/components/Footer/Footer.js</code> - Información de contacto</li>
+<li><code>src/pages/Contact/Contact.js</code> - Datos de la empresa</li>
+</ul>
+<h2>📱 Funcionalidades Principales</h2>
+<h3>Para Visitantes</h3>
+<ul>
+<li><strong>Explorar Galería</strong>: Ver proyectos filtrados por categoría</li>
+<li><strong>Solicitar Presupuesto</strong>: Formulario de contacto completo</li>
+<li><strong>Contacto Directo</strong>: Botón flotante de WhatsApp</li>
+<li><strong>Información Empresarial</strong>: Historia, valores y proceso de trabajo</li>
+</ul>
+<h3>Para Administradores</h3>
+<ul>
+<li><strong>Gestión de Proyectos</strong>: Crear, editar y eliminar proyectos</li>
+<li><strong>Subida de Imágenes</strong>: Sistema de carga múltiple a Firebase Storage</li>
+<li><strong>Gestión de Consultas</strong>: Ver y administrar formularios de contacto</li>
+<li><strong>Estadísticas</strong>: Panel con métricas del sitio</li>
+</ul>
+<h2>🔒 Seguridad</h2>
+<ul>
+<li>Autenticación Firebase para acceso administrativo</li>
+<li>Validación de formularios del lado cliente y servidor</li>
+<li>Reglas de seguridad en Firestore Database</li>
+<li>Sanitización de datos de entrada</li>
+</ul>
+<h2>📊 Rendimiento</h2>
+<ul>
+<li>Lazy loading de imágenes</li>
+<li>Optimización de animaciones</li>
+<li>Compresión automática de assets</li>
+<li>Caching de recursos estáticos</li>
+</ul>
+<h2>🌐 SEO y Accesibilidad</h2>
+<ul>
+<li>Meta tags optimizados</li>
+<li>Estructura semántica HTML5</li>
+<li>Alt text en todas las imágenes</li>
+<li>Navegación por teclado</li>
+<li>Contraste de colores adecuado</li>
+</ul>
+<h2>🚀 Despliegue</h2>
+<h3>Netlify (Recomendado)</h3>
+<ol>
+<li>Hacer build del proyecto: <code>npm run build</code></li>
+<li>Subir carpeta <code>build/</code> a Netlify</li>
+<li>Configurar variables de entorno de Firebase</li>
+</ol>
+<h3>Vercel</h3>
+<pre class="prettyprint source lang-bash"><code>npm install -g vercel
+vercel --prod
+</code></pre>
+<h3>Firebase Hosting</h3>
+<pre class="prettyprint source lang-bash"><code>npm install -g firebase-tools
+firebase init hosting
+firebase deploy
+</code></pre>
+<h2>🤝 Contribución</h2>
+<ol>
+<li>Fork del proyecto</li>
+<li>Crear rama feature (<code>git checkout -b feature/nueva-funcionalidad</code>)</li>
+<li>Commit cambios (<code>git commit -am 'Agregar nueva funcionalidad'</code>)</li>
+<li>Push a la rama (<code>git push origin feature/nueva-funcionalidad</code>)</li>
+<li>Crear Pull Request</li>
+</ol>
+<h2>📝 Documentación JSDoc</h2>
+<p>Todo el código está documentado siguiendo el estándar JSDoc:</p>
+<pre class="prettyprint source lang-javascript"><code>/**
+ * @fileoverview Descripción del archivo
+ * @author Nombre del autor
+ * @version 1.0.0
+ */
+
+/**
+ * Descripción de la función
+ * @param {string} parametro - Descripción del parámetro
+ * @returns {Object} Descripción del retorno
+ * @example
+ * const resultado = miFuncion('valor');
+ */
+function miFuncion(parametro) {
+  // implementación
+}
+</code></pre>
+<h2>📋 Checklist de Funcionalidades</h2>
+<h3>✅ Completadas</h3>
+<ul>
+<li>[x] Estructura básica de React</li>
+<li>[x] Sistema de navegación</li>
+<li>[x] Página de inicio con hero</li>
+<li>[x] Galería con filtros</li>
+<li>[x] Formulario de contacto</li>
+<li>[x] Panel de administración</li>
+<li>[x] Integración con Firebase</li>
+<li>[x] Botón flotante WhatsApp</li>
+<li>[x] Diseño responsive</li>
+<li>[x] Documentación JSDoc</li>
+<li>[x] Animaciones Framer Motion</li>
+</ul>
+<h3>🔄 En Desarrollo</h3>
+<ul>
+<li>[ ] Sistema de notificaciones</li>
+<li>[ ] Optimización de imágenes</li>
+<li>[ ] PWA (Progressive Web App)</li>
+<li>[ ] Tests unitarios</li>
+</ul>
+<h3>📋 Futuras Mejoras</h3>
+<ul>
+<li>[ ] Chat en vivo</li>
+<li>[ ] Sistema de reseñas</li>
+<li>[ ] Blog de proyectos</li>
+<li>[ ] Calculadora de presupuestos</li>
+<li>[ ] Múltiples idiomas</li>
+</ul>
+<h2>📞 Soporte</h2>
+<p>Para soporte técnico o consultas sobre el proyecto:</p>
+<ul>
+<li>Email: info@mueblesartesanales.com</li>
+<li>WhatsApp: +54 299 412-3456</li>
+</ul>
+<h2>📄 Licencia</h2>
+<p>Este proyecto está bajo la Licencia MIT. Ver el archivo <code>LICENSE</code> para más detalles.</p>
+<hr>
+<p><strong>Desarrollado con ❤️ en Neuquén, Argentina</strong></p></article>
+    </section>
+
+
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>App.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Componente principal de la aplicación</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Muebles Artesanales</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="App.js.html">App.js</a>, <a href="App.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>components/Footer/Footer.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Componente Footer con información de contacto y redes</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Muebles Artesanales</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Footer_Footer.js.html">components/Footer/Footer.js</a>, <a href="components_Footer_Footer.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>components/Header/Header.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Componente Header para navegación principal</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Muebles Artesanales</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_Header_Header.js.html">components/Header/Header.js</a>, <a href="components_Header_Header.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>components/WhatsAppButton/WhatsAppButton.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Botón flotante de WhatsApp</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Muebles Artesanales</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="components_WhatsAppButton_WhatsAppButton.js.html">components/WhatsAppButton/WhatsAppButton.js</a>, <a href="components_WhatsAppButton_WhatsAppButton.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>config/firebase.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Configuración de Firebase para la aplicación Muebles Beltrán</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Muebles Beltrán</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="config_firebase.js.html">config/firebase.js</a>, <a href="config_firebase.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>index.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Punto de entrada principal de la aplicación React</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Muebles Artesanales</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>pages/About/About.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Página sobre nosotros con historia y valores de la empresa</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Muebles Artesanales</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_About_About.js.html">pages/About/About.js</a>, <a href="pages_About_About.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>pages/Admin/Admin.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Panel de administración para gestión de contenido</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Muebles Artesanales</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_Admin_Admin.js.html">pages/Admin/Admin.js</a>, <a href="pages_Admin_Admin.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>pages/Contact/Contact.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Página de contacto con formulario funcional</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Muebles Artesanales</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_Contact_Contact.js.html">pages/Contact/Contact.js</a>, <a href="pages_Contact_Contact.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>pages/Gallery/Gallery.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Página de galería con filtrado por categorías</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Muebles Artesanales</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_Gallery_Gallery.js.html">pages/Gallery/Gallery.js</a>, <a href="pages_Gallery_Gallery.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>pages/Home/Home.js</h2>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class="description"><p>Página principal del sitio web</p></div>
+        
+
+        
+
+
+<dl class="details">
+
+    
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version"><ul class="dummy"><li>1.0.0</li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Muebles Artesanales</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="pages_Home_Home.js.html">pages/Home/Home.js</a>, <a href="pages_Home_Home.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+        
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#About">About</a></li><li><a href="global.html#Admin">Admin</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#Contact">Contact</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Gallery">Gallery</a></li><li><a href="global.html#Header">Header</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#WhatsAppButton">WhatsAppButton</a></li><li><a href="global.html#analytics">analytics</a></li><li><a href="global.html#app">app</a></li><li><a href="global.html#appConfig">appConfig</a></li><li><a href="global.html#auth">auth</a></li><li><a href="global.html#db">db</a></li><li><a href="global.html#firebaseConfig">firebaseConfig</a></li><li><a href="global.html#firebaseInfo">firebaseInfo</a></li><li><a href="global.html#root">root</a></li><li><a href="global.html#storage">storage</a></li><li><a href="global.html#validateConfig">validateConfig</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Tue Jun 24 2025 14:44:10 GMT-0300 (hora estándar de Argentina)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
