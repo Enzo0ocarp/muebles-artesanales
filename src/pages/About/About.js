@@ -190,21 +190,16 @@ const About = () => {
                 Todo comenzó con una pasión
               </h2>
               <div className="space-y-4 text-gray-600 text-lg leading-relaxed">
-                <p>
-                  Mi papá comenzó este emprendimiento en su garage, con herramientas básicas 
-                  y un sueño: crear muebles que no solo fueran funcionales, sino que contaran 
-                  la historia de cada familia.
-                </p>
-                <p>
-                  Lo que empezó como un hobby de fin de semana se convirtió en su verdadera 
-                  vocación. Cada proyecto era una oportunidad de aprender algo nuevo, de 
-                  perfeccionar una técnica, de hacer feliz a una familia más.
-                </p>
-                <p>
-                  Hoy, 15 años después, seguimos con la misma filosofía: cada mueble es único, 
-                  cada cliente es especial, y cada proyecto es una oportunidad de crear algo 
-                  extraordinario que durará generaciones.
-                </p>
+<p>
+  Comencé este emprendimiento en mi garage, con herramientas básicas y un sueño: crear muebles que no solo fueran funcionales, sino que contaran la historia de cada familia.
+</p>
+<p>
+  Lo que empezó como un hobby de fin de semana se convirtió en mi verdadera vocación. Cada proyecto era una oportunidad para aprender algo nuevo, perfeccionar una técnica y hacer feliz a una familia más.
+</p>
+<p>
+  Hoy, 15 años después, sigo con la misma filosofía: cada mueble es único, cada cliente es especial, y cada proyecto es una oportunidad de crear algo extraordinario que perdure por generaciones.
+</p>
+
               </div>
             </motion.div>
 
@@ -525,13 +520,13 @@ const About = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <a
-                href="/contacto"
+                href="/contact"
                 className="bg-white text-amber-800 hover:bg-amber-50 font-medium py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
               >
                 Comenzar mi Proyecto
               </a>
               <a
-                href="/galeria"
+                href="/gallery"
                 className="border-2 border-white text-white hover:bg-white hover:text-amber-800 font-medium py-4 px-8 rounded-lg transition-all duration-300"
               >
                 Ver Nuestros Trabajos

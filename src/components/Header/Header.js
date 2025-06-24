@@ -48,10 +48,11 @@ const Header = () => {
      */
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 50);
+      setIsScrolled(scrollPosition > 20);
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Verificar estado inicial
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -79,120 +80,162 @@ const Header = () => {
     return location.pathname === path;
   };
 
+  /**
+   * Determina si estamos en la página de inicio
+   * @returns {boolean} True si estamos en la página de inicio
+   */
+  const isHomePage = () => {
+    return location.pathname === '/';
+  };
+
   return (
-    <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-lg' 
-          : 'bg-transparent'
-      }`}
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-    >
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
-            <motion.div
-              className="bg-amber-700 p-2 rounded-lg group-hover:bg-amber-800 transition-colors duration-300"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Hammer className="h-6 w-6 text-white" />
-            </motion.div>
-            <div className="font-heading">
-              <h1 className="text-xl font-bold text-amber-900">
-                Muebles Beltran
-              </h1>
-              <p className="text-sm text-amber-700 -mt-1">
-                Carpintería de calidad
-              </p>
-            </div>
-          </Link>
-
-          {/* Navegación Desktop */}
-          <nav className="hidden md:flex items-center space-x-8">
-            {navigationLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className={`font-medium transition-all duration-300 hover:text-amber-700 relative ${
-                  isActiveRoute(link.path)
-                    ? 'text-amber-700'
-                    : isScrolled
-                    ? 'text-gray-700'
-                    : 'text-white'
+    <>
+      {/* Backdrop para mejorar legibilidad en TODAS las páginas */}
+      {!isScrolled && (
+        <div className="fixed top-0 left-0 right-0 h-24 bg-gradient-to-b from-black/70 via-black/40 to-transparent z-40 pointer-events-none" />
+      )}
+      
+      <motion.header
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isScrolled 
+            ? 'bg-white/98 backdrop-blur-lg shadow-xl border-b border-amber-100/50' 
+            : 'bg-black/30 backdrop-blur-md'
+        }`}
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link to="/" className="flex items-center space-x-3 group relative z-10">
+              <motion.div
+                className={`p-2.5 rounded-xl transition-all duration-300 ${
+                  isScrolled 
+                    ? 'bg-amber-700 group-hover:bg-amber-800 shadow-lg' 
+                    : 'bg-amber-700/90 group-hover:bg-amber-800 shadow-xl border border-amber-600'
                 }`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                {link.label}
-                {isActiveRoute(link.path) && (
-                  <motion.div
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-amber-700"
-                    layoutId="activeTab"
-                    initial={false}
-                    transition={{
-                      type: "spring",
-                      stiffness: 500,
-                      damping: 30
-                    }}
-                  />
-                )}
-              </Link>
-            ))}
-          </nav>
-
-          {/* Botón menú móvil */}
-          <motion.button
-            onClick={toggleMenu}
-            className={`md:hidden p-2 rounded-lg transition-colors duration-300 ${
-              isScrolled
-                ? 'text-gray-700 hover:bg-gray-100'
-                : 'text-white hover:bg-white/10'
-            }`}
-            whileTap={{ scale: 0.95 }}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </motion.button>
-        </div>
-
-        {/* Menú móvil */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.nav
-              className="md:hidden mt-4 bg-white rounded-lg shadow-lg overflow-hidden"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              <div className="py-2">
-                {navigationLinks.map((link, index) => (
-                  <motion.div
-                    key={link.path}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                  >
-                    <Link
-                      to={link.path}
-                      className={`block px-4 py-3 font-medium transition-colors duration-300 hover:bg-amber-50 ${
-                        isActiveRoute(link.path)
-                          ? 'text-amber-700 bg-amber-50 border-r-2 border-amber-700'
-                          : 'text-gray-700'
-                      }`}
-                    >
-                      {link.label}
-                    </Link>
-                  </motion.div>
-                ))}
+                <Hammer                 className={`h-6 w-6 transition-colors duration-300 ${
+                  isScrolled ? 'text-white' : 'text-white'
+                }`} />
+              </motion.div>
+              <div className="font-heading">
+                <h1 className={`text-xl font-bold transition-all duration-300 ${
+                  isScrolled 
+                    ? 'text-amber-900' 
+                    : 'text-white font-semibold'
+                }`}>
+                  Muebles Beltrán
+                </h1>
+                <p className={`text-sm -mt-1 transition-all duration-300 ${
+                  isScrolled 
+                    ? 'text-amber-700' 
+                    : 'text-amber-100 font-medium'
+                }`}>
+                  Carpintería de calidad
+                </p>
               </div>
-            </motion.nav>
-          )}
-        </AnimatePresence>
-      </div>
-    </motion.header>
+            </Link>
+
+            {/* Navegación Desktop */}
+            <nav className="hidden md:flex items-center space-x-8">
+              {navigationLinks.map((link) => (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  className={`font-medium transition-all duration-300 relative px-3 py-2 rounded-lg ${
+                    isActiveRoute(link.path)
+                      ? isScrolled
+                        ? 'text-amber-700 bg-amber-50'
+                        : 'text-white bg-amber-700/80 font-semibold shadow-lg'
+                      : isScrolled
+                      ? 'text-gray-700 hover:text-amber-700 hover:bg-amber-50'
+                      : 'text-white hover:text-white hover:bg-amber-700/60 font-medium'
+                  }`}
+                >
+                  {link.label}
+                  {isActiveRoute(link.path) && (
+                    <motion.div
+                      className={`absolute -bottom-1 left-3 right-3 h-0.5 rounded-full ${
+                        isScrolled ? 'bg-amber-700' : 'bg-white shadow-md'
+                      }`}
+                      layoutId="activeTab"
+                      initial={false}
+                      transition={{
+                        type: "spring",
+                        stiffness: 500,
+                        damping: 30
+                      }}
+                    />
+                  )}
+                </Link>
+              ))}
+            </nav>
+
+            {/* Botón menú móvil */}
+            <motion.button
+              onClick={toggleMenu}
+              className={`md:hidden p-2.5 rounded-xl transition-all duration-300 ${
+                isScrolled
+                  ? 'text-gray-700 hover:bg-amber-50 border border-transparent hover:border-amber-200'
+                  : 'text-white hover:bg-amber-700/60 bg-amber-700/40 border border-amber-600 shadow-lg'
+              }`}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </motion.button>
+          </div>
+
+          {/* Menú móvil */}
+          <AnimatePresence>
+            {isMenuOpen && (
+              <motion.nav
+                className="md:hidden mt-4 bg-white/98 backdrop-blur-lg rounded-2xl shadow-2xl overflow-hidden border border-amber-100/50"
+                initial={{ opacity: 0, height: 0, y: -20 }}
+                animate={{ opacity: 1, height: 'auto', y: 0 }}
+                exit={{ opacity: 0, height: 0, y: -20 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+              >
+                <div className="py-2">
+                  {navigationLinks.map((link, index) => (
+                    <motion.div
+                      key={link.path}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1, duration: 0.3 }}
+                    >
+                      <Link
+                        to={link.path}
+                        className={`block px-6 py-4 font-medium transition-all duration-300 relative ${
+                          isActiveRoute(link.path)
+                            ? 'text-amber-700 bg-amber-50 border-r-4 border-amber-700'
+                            : 'text-gray-700 hover:text-amber-700 hover:bg-amber-50/50'
+                        }`}
+                      >
+                        <span className="relative z-10">{link.label}</span>
+                        {isActiveRoute(link.path) && (
+                          <motion.div
+                            className="absolute inset-0 bg-gradient-to-r from-amber-50 to-transparent"
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            transition={{ duration: 0.3 }}
+                            style={{ originX: 0 }}
+                          />
+                        )}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </motion.nav>
+            )}
+          </AnimatePresence>
+        </div>
+      </motion.header>
+    </>
   );
 };
 

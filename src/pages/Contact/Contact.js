@@ -131,8 +131,8 @@ const Contact = () => {
     {
       icon: Mail,
       title: 'Email',
-      content: appConfig.businessEmail,
-      action: `mailto:${appConfig.businessEmail}`
+      content: 'christianomarcontacto@gmail.com',
+      action: `mailto:christianomarcontacto@gmail.com`
     },
     {
       icon: MapPin,
