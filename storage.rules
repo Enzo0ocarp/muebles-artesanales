@@ -1,0 +1,33 @@
+rules_version = '2';
+
+// Cloud Storage Security Rules
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Reglas para la galería de imágenes
+    match /gallery/{imageId} {
+      // Permitir lectura pública (cualquiera puede ver las imágenes)
+      allow read: if true;
+      
+      // Solo usuarios autenticados pueden subir/editar/eliminar
+      allow write, delete: if request.auth != null;
+    }
+    
+    // Reglas para imágenes de proyectos
+    match /projects/{projectId}/{imageId} {
+      // Permitir lectura pública
+      allow read: if true;
+      
+      // Solo usuarios autenticados pueden subir/editar/eliminar
+      allow write, delete: if request.auth != null;
+    }
+    
+    // Reglas para cualquier otra imagen
+    match /{allPaths=**} {
+      // Permitir lectura pública para todas las imágenes
+      allow read: if true;
+      
+      // Solo usuarios autenticados pueden subir/editar/eliminar
+      allow write, delete: if request.auth != null;
+    }
+  }
+}
